@@ -23,6 +23,11 @@ export class RunnerComponent implements OnInit {
     starShapedPolygon.addNode(3, -3);
     starShapedPolygon.addNode(-11, 5);
     starShapedPolygon.addNode(4, 13);
+    starShapedPolygon.addNode(21, 3);
+    starShapedPolygon.addNode(15, -2);
+    //starShapedPolygon.addNode(-18, 7);
+    starShapedPolygon.addNode(3, 13);
+    starShapedPolygon.addNode(-7, -7);
 
     visibilityGraph.addNode(5, 5);
     visibilityGraph.addNode(-5, 7);
@@ -32,6 +37,11 @@ export class RunnerComponent implements OnInit {
     visibilityGraph.addNode(3, -3);
     visibilityGraph.addNode(-11, 5);
     visibilityGraph.addNode(4, 13);
+    visibilityGraph.addNode(21, 3);
+    visibilityGraph.addNode(15, -2);
+    //visibilityGraph.addNode(-18, 7);
+    visibilityGraph.addNode(3, 13);
+    visibilityGraph.addNode(-7, -7);
 
     starShapedPolygon.drawStarShapedPolygon();
     visibilityGraph.drawVisibilityGraph();
