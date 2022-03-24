@@ -1,11 +1,9 @@
 import * as THREE from 'three';
-import {ScrService} from "../services/ScrService";
 import {Point} from "../models/Point";
-import {IDrawable} from "./interfaces/IDrawable";
 
-export class Nodes extends Array<Point> implements IDrawable {
+export class Nodes extends Array<Point> {
   private geometry: THREE.CircleGeometry = new THREE.CircleGeometry(0.15,15);
-  constructor(private SCR: ScrService) {
+  constructor() {
     super();
   }
 
@@ -37,11 +35,5 @@ export class Nodes extends Array<Point> implements IDrawable {
 
   public sortByPosition(): void {
     this.sort((a,b)=> a.mesh.position.x - b.mesh.position.x);
-  }
-
-  drawObjects(): void {
-    this.forEach(node => {
-      this.SCR.scene.add(node.mesh);
-    });
   }
 }

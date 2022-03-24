@@ -2,17 +2,18 @@ import {Nodes} from "./Nodes";
 import {Edges} from "./Edges";
 import {ScrService} from "../services/ScrService";
 import {Point} from "../models/Point";
-import {GraphAlgorithms} from "./GraphAlgorithms";
+import {GraphAlgorithmsFactory} from "./factories/GraphAlgorithmsFactory";
+import {GraphDrawer} from "./GraphDrawer";
 
 export class Graph {
   private readonly nodes: Nodes;
   private readonly edges: Edges;
-  private graphAlgorithms: GraphAlgorithms;
-
+  private graphAlgorithmsFactory: GraphAlgorithmsFactory =  new GraphAlgorithmsFactory();
+  private graphDrawer: GraphDrawer;
   constructor(private SCR: ScrService) {
-    this.nodes = new Nodes(SCR);
-    this.edges = new Edges(SCR);
-    this.graphAlgorithms = new GraphAlgorithms(this.nodes, this.edges);
+    this.nodes = new Nodes();
+    this.edges = new Edges();
+    this.graphDrawer = new GraphDrawer(this.nodes, this.edges, this.SCR);
   }
 
   public addNode(x: number, y: number): void {
@@ -24,19 +25,16 @@ export class Graph {
   }
 
   public drawStarShapedPolygon(): void {
-    this.graphAlgorithms.starShapedPolygon();
-    this.drawGraph();
+    let algorithm = this.graphAlgorithmsFactory.getAlgorithm(this.nodes, this.edges, "StarShapedPolygon");
+    algorithm.runAlgorithm();
+    this.graphDrawer.drawGraph();
     this.nodes.sortByPosition();
   }
 
   public drawVisibilityGraph(): void {
-    this.graphAlgorithms.visibilityGraph();
-    this.drawGraph(true);
+    let algorithm = this.graphAlgorithmsFactory.getAlgorithm(this.nodes, this.edges, "VisibilityGraph");
+    algorithm.runAlgorithm();
+    this.graphDrawer.drawGraph(true);
     this.nodes.sortByPosition();
-  }
-
-  private drawGraph(isAnimated: boolean = false): void {
-    this.nodes.drawObjects();
-    this.edges.drawObjects(isAnimated);
   }
 }

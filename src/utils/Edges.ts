@@ -1,12 +1,10 @@
 import {Arrow2DHelper} from "../helpers/Arrow2DHelper";
 import {Line} from "../models/Line";
-import {ScrService} from "../services/ScrService";
 import * as THREE from "three";
 import {Point} from "../models/Point";
-import {IDrawable} from "./interfaces/IDrawable";
 
-export class Edges extends Array<Line> implements IDrawable {
-  constructor(private SCR: ScrService) {
+export class Edges extends Array<Line> {
+  constructor() {
     super();
   }
 
@@ -19,20 +17,5 @@ export class Edges extends Array<Line> implements IDrawable {
     arrowHelper.setDirection(dir.normalize());
 
     this.push({p1: a, p2: b, arrow: arrowHelper});
-  }
-
-  drawObjects(isAnimated: boolean = false): void {
-    if(isAnimated) {
-      let timeout = 1000;
-      let delta = 1000;
-      this.forEach(edge => {
-        setTimeout(() => this.SCR.scene.add(edge.arrow), timeout);
-        timeout += delta;
-      });
-    } else {
-      this.forEach(edge => {
-        this.SCR.scene.add(edge.arrow);
-      });
-    }
   }
 }
