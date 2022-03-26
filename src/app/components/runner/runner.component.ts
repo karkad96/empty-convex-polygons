@@ -14,34 +14,13 @@ export class RunnerComponent implements OnInit {
   ngOnInit(): void {
     let starShapedPolygon = new Graph(this.SCR);
     let visibilityGraph = new Graph(this.SCR);
+    let nodes = [[5, 5],   [-5, 7], [2, 1],
+                 [-3, 2],  [-1, 1], [3, -3],
+                 [-11, 5], [4, 13], [21, 3],
+                 [15, -2], [3, 13], [-7, -7]];
 
-    starShapedPolygon.addNode(5, 5);
-    starShapedPolygon.addNode(-5, 7);
-    starShapedPolygon.addNode(2, 1);
-    starShapedPolygon.addNode(-3, 2);
-    starShapedPolygon.addNode(-1, 1);
-    starShapedPolygon.addNode(3, -3);
-    starShapedPolygon.addNode(-11, 5);
-    starShapedPolygon.addNode(4, 13);
-    starShapedPolygon.addNode(21, 3);
-    starShapedPolygon.addNode(15, -2);
-    //starShapedPolygon.addNode(-18, 7);
-    starShapedPolygon.addNode(3, 13);
-    starShapedPolygon.addNode(-7, -7);
-
-    visibilityGraph.addNode(5, 5);
-    visibilityGraph.addNode(-5, 7);
-    visibilityGraph.addNode(2, 1);
-    visibilityGraph.addNode(-3, 2);
-    visibilityGraph.addNode(-1, 1);
-    visibilityGraph.addNode(3, -3);
-    visibilityGraph.addNode(-11, 5);
-    visibilityGraph.addNode(4, 13);
-    visibilityGraph.addNode(21, 3);
-    visibilityGraph.addNode(15, -2);
-    //visibilityGraph.addNode(-18, 7);
-    visibilityGraph.addNode(3, 13);
-    visibilityGraph.addNode(-7, -7);
+    starShapedPolygon.addNodes(nodes);
+    visibilityGraph.addNodes(nodes);
 
     starShapedPolygon.drawStarShapedPolygon();
     visibilityGraph.drawVisibilityGraph();
