@@ -39,6 +39,7 @@ export class Graph {
 
   public drawVisibilityGraph(): void {
     this.graphAlgorithmsFactory.getVisibilityGraph().runAlgorithm();
+    this.graphAlgorithmsFactory.getLongestConvexChain().runAlgorithm();
     this.graphDrawer.drawGraph(true);
     this.nodes.sortByPosition();
   }

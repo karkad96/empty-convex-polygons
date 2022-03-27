@@ -4,11 +4,16 @@ import * as THREE from "three";
 import {Point} from "../models/Point";
 
 export class Edges extends Array<Line> {
-  constructor() {
+  constructor(lines?: Line[]) {
     super();
+    if(lines) {
+      lines.forEach(line => {
+        this.addEdge(line.p1, line.p2);
+      });
+    }
   }
 
-  public addEdge(a: Point, b: Point, color: number, isArrow: boolean = true): void {
+  public addEdge(a: Point, b: Point, color: number = 0x000000, isArrow: boolean = true): void {
     let p1 = new THREE.Vector3(a.mesh.position.x, a.mesh.position.y, 0);
     let p2 = new THREE.Vector3(b.mesh.position.x, b.mesh.position.y, 0);
     let dir = new THREE.Vector3(p2.x - p1.x, p2.y - p1.y, 0);

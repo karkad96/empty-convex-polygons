@@ -13,15 +13,8 @@ export class VisibilityGraph implements IAlgorithm {
     this.edges = _edges;
   }
 
-  private turn(i: number, j: number, k: number): boolean {
-    return ((this.nodes[j].mesh.position.x - this.nodes[i].mesh.position.x) *
-      (this.nodes[k].mesh.position.y - this.nodes[i].mesh.position.y) -
-      (this.nodes[k].mesh.position.x - this.nodes[i].mesh.position.x) *
-      (this.nodes[j].mesh.position.y - this.nodes[i].mesh.position.y)) > 0;
-  }
-
   private proceed(i: number, j: number) {
-    while(this.queue[i].length && this.turn(this.queue[i].front, i, j)) {
+    while(this.queue[i].length && this.nodes.cross(this.queue[i].front, i, j) > 0) {
       this.proceed(this.queue[i].front, j);
       this.queue[i].dequeue();
     }

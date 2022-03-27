@@ -33,6 +33,13 @@ export class Nodes extends Array<Point> {
     this.unshift(firstElement!);
   }
 
+  public cross(i: number, j: number, k: number): number {
+    return (this[j].mesh.position.x - this[i].mesh.position.x) *
+      (this[k].mesh.position.y - this[i].mesh.position.y) -
+      (this[k].mesh.position.x - this[i].mesh.position.x) *
+      (this[j].mesh.position.y - this[i].mesh.position.y);
+  }
+
   public sortByPosition(): void {
     this.sort((a,b)=> a.mesh.position.x - b.mesh.position.x);
   }

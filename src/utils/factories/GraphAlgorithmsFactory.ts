@@ -4,6 +4,7 @@ import {VisibilityGraph} from "../algorithms/VisibilityGraph";
 import {Nodes} from "../Nodes";
 import {Edges} from "../Edges";
 import {StarShapedPolygon} from "../algorithms/StarShapedPolygon";
+import {LongestConvexChain} from "../algorithms/LongestConvexChain";
 
 export class GraphAlgorithmsFactory implements IGraphAlgorithmsFactory {
   private readonly nodes: Nodes;
@@ -20,5 +21,9 @@ export class GraphAlgorithmsFactory implements IGraphAlgorithmsFactory {
 
   public getVisibilityGraph(): IAlgorithm {
     return new VisibilityGraph(this.nodes, this.edges);
+  }
+
+  getLongestConvexChain(): IAlgorithm {
+    return new LongestConvexChain(this.nodes, this.edges);
   }
 }
