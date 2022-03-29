@@ -5,4 +5,5 @@ export interface Line {
   p1: Point;
   p2: Point;
   arrow: Arrow2DHelper;
+  weight: number;
 }

@@ -1,7 +1,7 @@
-import {IGraphDrawable} from "./interfaces/IGraphDrawable";
-import {Nodes} from "./Nodes";
-import {Edges} from "./Edges";
-import {ScrService} from "../services/ScrService";
+import {IGraphDrawable} from "../interfaces/IGraphDrawable";
+import {Nodes} from "../Nodes";
+import {Edges} from "../Edges";
+import {ScrService} from "../../services/ScrService";
 
 export class GraphDrawer implements IGraphDrawable {
   private readonly nodes: Nodes;

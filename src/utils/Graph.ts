@@ -3,7 +3,9 @@ import {Edges} from "./Edges";
 import {ScrService} from "../services/ScrService";
 import {Point} from "../models/Point";
 import {GraphAlgorithmsFactory} from "./factories/GraphAlgorithmsFactory";
-import {GraphDrawer} from "./GraphDrawer";
+import {GraphDrawer} from "./drawers/GraphDrawer";
+import {LongestConvexChain} from "./algorithms/LongestConvexChain";
+import {GraphLabelDrawer} from "./drawers/GraphLabelDrawer";
 
 export class Graph {
   private readonly nodes: Nodes;
@@ -39,8 +41,16 @@ export class Graph {
 
   public drawVisibilityGraph(): void {
     this.graphAlgorithmsFactory.getVisibilityGraph().runAlgorithm();
-    this.graphAlgorithmsFactory.getLongestConvexChain().runAlgorithm();
-    this.graphDrawer.drawGraph(true);
+    this.graphDrawer.drawGraph();
+    this.nodes.sortByPosition();
+  }
+
+  public drawLongestConvexChainLabels(): void {
+    let algorithm = this.graphAlgorithmsFactory.getLongestConvexChain();
+    algorithm.runAlgorithm();
+    let labelDrawer = new GraphLabelDrawer(this.nodes, (algorithm as LongestConvexChain).edgesToLabel, this.SCR);
+    labelDrawer.drawLabels(true);
+    //console.log((algorithm as LongestConvexChain).edgesToLabel);
     this.nodes.sortByPosition();
   }
 }

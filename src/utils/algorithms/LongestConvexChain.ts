@@ -1,13 +1,16 @@
 import {IAlgorithm} from "../interfaces/IAlgorithm";
 import {Nodes} from "../Nodes";
 import {Edges} from "../Edges";
+import {Line} from "../../models/Line";
 
 export class LongestConvexChain implements IAlgorithm {
   private readonly nodes: Nodes;
-  private readonly edges: Edges;
+  private edges: Edges;
   private outgoingEdges: Array<Array<number>> = new Array<Array<number>>();
   private incomingEdges: Array<Array<number>> = new Array<Array<number>>();
   private L: Array<Array<number>> = new Array<Array<number>>();
+
+  public edgesToLabel: Edges = new Edges();
 
   constructor(_nodes: Nodes, _edges: Edges) {
     this.nodes = _nodes;
@@ -47,14 +50,24 @@ export class LongestConvexChain implements IAlgorithm {
     }
   }
 
+  private addLabelToEdge(edge: Line, weight: number): void {
+    edge.weight = weight + 1;
+    this.edgesToLabel.push(edge);
+  }
+
   private treat(i: number): void {
     let m = 0;
     for(let j = this.incomingEdges[i].length - 1, l = this.outgoingEdges[i].length - 1; j >= 0; j--) {
-      this.L[this.incomingEdges[i][j]][i] = m + 1
+      let edge = this.edges.find(line => line.p1 == this.nodes[this.incomingEdges[i][j]] && line.p2 == this.nodes[i])!;
+      this.L[this.incomingEdges[i][j]][i] = m + 1;
+      this.addLabelToEdge(edge, m);
+      //console.log(edge, m + 1);
       while(l >= 0 && this.nodes.cross(i, this.incomingEdges[i][j], this.outgoingEdges[i][l]) < 0) {
         if(this.L[i][this.outgoingEdges[i][l]] > m) {
           m = this.L[i][this.outgoingEdges[i][l]];
           this.L[this.incomingEdges[i][j]][i] = m + 1;
+          this.addLabelToEdge(edge, m);
+          //console.log(edge, m + 1);
         }
         l--;
       }
@@ -62,9 +75,6 @@ export class LongestConvexChain implements IAlgorithm {
   }
 
   public runAlgorithm(): void {
-    console.log(this.incomingEdges);
-    console.log(this.outgoingEdges);
-    console.log(this.L);
     this.maxChain();
   }
 }
