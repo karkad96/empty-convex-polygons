@@ -15,6 +15,10 @@ export class GraphLabelDrawer implements IGraphDrawableLabel {
   }
 
   private makeLabel(edge: Line): void {
+    let element = document.getElementById(edge.arrow.uuid);
+    if(element && element.textContent == edge.weight.toString()) {
+      return;
+    }
     const edgeDiv = document.createElement('div');
     edgeDiv.style.color = '#FFF';
     edgeDiv.id = edge.arrow.uuid;
