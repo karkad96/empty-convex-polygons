@@ -8,7 +8,7 @@ export class Edges extends Array<Line> {
     super();
     if(lines) {
       lines.forEach(line => {
-        this.addEdge(line.p1, line.p2);
+        this.AddEdgeByLine(line);
       });
     }
   }

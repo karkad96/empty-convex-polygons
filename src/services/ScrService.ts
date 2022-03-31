@@ -3,6 +3,7 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 import {Injectable} from "@angular/core";
 import Stats from "three/examples/jsm/libs/stats.module";
 import {CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
+import * as TWEEN from "@tweenjs/tween.js";
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,9 @@ export class ScrService {
   public renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
   public labelRenderer = new CSS2DRenderer();
   public orbitControls: OrbitControls;
+  public tween!: TWEEN.Tween<{ x: number, y: number }>;
   private stats: Stats;
+
   constructor() {
     this.camera.position.set(0, 0, 10);
 
@@ -35,7 +38,7 @@ export class ScrService {
     this.orbitControls.enableRotate = false;
 
     let grid = new THREE.GridHelper(100, 100, new THREE.Color( 0x7a7a7a ), new THREE.Color( 0x3a3a3a ));
-    grid.geometry.rotateX( Math.PI / 2 );
+    grid.geometry.rotateX(Math.PI / 2);
 
     this.scene.add(grid);
     this.stats = Stats();
@@ -50,12 +53,12 @@ export class ScrService {
     this.labelRenderer.render(this.scene, this.camera);
   }
 
-
   public animate = () => {
     requestAnimationFrame(this.animate);
     this.orbitControls.update();
     this.render();
     this.renderLabels();
     this.stats.update();
+    TWEEN.update();
   }
 }

@@ -16,6 +16,7 @@ export class Arrow2DHelper extends Object3D {
   private mat: LineBasicMaterial;
   private mat2: MeshBasicMaterial;
   private readonly arrowHead;
+  public length: number;
   constructor(dir       = new Vector3(0, 1, 0),
               origin    = new Vector3(0, 0, 0),
               length    = 1,
@@ -29,9 +30,13 @@ export class Arrow2DHelper extends Object3D {
     if (_lineGeometry === undefined) {
       _lineGeometry = new BufferGeometry();
       _lineGeometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 0, 1, 0], 3));
+      _lineGeometry.morphAttributes['position'] = [];
+      _lineGeometry.morphAttributes['position'][0] = new Float32BufferAttribute([0, 0, 0], 3);
 
       _triangleGeometry = new BufferGeometry();
       _triangleGeometry.setAttribute('position', new Float32BufferAttribute([-0.5, 0, 0, 0.5, 0, 0, 0, Math.sqrt(3) / 2, 0], 3));
+      _triangleGeometry.morphAttributes['position'] = [];
+      _triangleGeometry.morphAttributes['position'][0] = new Float32BufferAttribute([1, 1, 1], 3);
     }
 
     this.position.copy(origin);
@@ -45,10 +50,10 @@ export class Arrow2DHelper extends Object3D {
     this.add(this.arrowHead);
 
     this.setDirection(dir);
-    this.setLength(length, headLength, headWidth);
+    this.setLength(this.length = length, headLength, headWidth);
   }
 
-  setDirection(dir: Vector3) {
+  public setDirection(dir: Vector3) {
     if (dir.y > 1) {
       this.quaternion.set(0, 0, 0, 1);
     } else if (dir.y < -1) {
@@ -59,7 +64,7 @@ export class Arrow2DHelper extends Object3D {
     }
   }
 
-  setLength(length: number, headLength = length * 0.2, headWidth = headLength * 0.2) {
+  public setLength(length: number, headLength = length * 0.2, headWidth = headLength * 0.2) {
     this.line.scale.set(1, length - headLength, 0);
     this.line.updateMatrix();
 
@@ -68,12 +73,12 @@ export class Arrow2DHelper extends Object3D {
     this.arrowHead.updateMatrix();
   }
 
-  setColor(color: ColorRepresentation) {
+  public setColor(color: ColorRepresentation) {
     this.mat.color.set(color);
     this.mat2.color.set(color);
   }
 
-  override copy(source: this): this {
+  public override copy(source: this): this {
     super.copy(source, false);
     this.line.copy(source.line);
     this.arrowHead.copy(source.arrowHead);

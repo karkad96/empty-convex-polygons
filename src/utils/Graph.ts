@@ -44,7 +44,7 @@ export class Graph {
   public visibilityGraph(draw?: boolean): void  {
     this.graphAlgorithmsFactory.getVisibilityGraph().runAlgorithm();
     if(draw) {
-      this.graphDrawer.drawGraph();
+      this.graphDrawer.drawGraph(true);
     }
     this.nodes.sortByPosition();
   }
@@ -53,8 +53,8 @@ export class Graph {
     let algorithm = this.graphAlgorithmsFactory.getLongestConvexChain();
     algorithm.runAlgorithm();
     if(draw) {
-      let labelDrawer = new GraphLabelDrawer(this.nodes, (algorithm as LongestConvexChain).edgesToLabel, this.SCR);
-      labelDrawer.drawLabels(true);
+      let labelDrawer = new GraphLabelDrawer(this.nodes, (algorithm as LongestConvexChain).edgesToLabel);
+      labelDrawer.drawLabels();
     }
     this.nodes.sortByPosition();
   }

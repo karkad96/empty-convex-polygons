@@ -2,3 +2,9 @@
 body {
   margin: 0;
 }
+
+.label {
+  color: #FFF;
+  font-family: sans-serif;
+  padding: 2px;
+}
