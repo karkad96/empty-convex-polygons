@@ -20,7 +20,7 @@ export class ScrService {
   public renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
   public labelRenderer = new CSS2DRenderer();
   public orbitControls: OrbitControls;
-  public tween!: TWEEN.Tween<{ x: number, y: number }>;
+  public tween: TWEEN.Tween<{ x: number, y: number }> = new TWEEN.Tween({ x: 0, y: 0 });
   private stats: Stats;
 
   constructor() {

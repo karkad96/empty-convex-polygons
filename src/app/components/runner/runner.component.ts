@@ -12,19 +12,16 @@ export class RunnerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let starShapedPolygon = new Graph(this.SCR);
-    let visibilityGraph = new Graph(this.SCR);
+    let graph = new Graph(this.SCR);
     let nodes = [[5, 5],   [-5, 7], [2, 1],
                  [-3, 2],  [-1, 1], [3, -3],
                  [-11, 5], [4, 13], [21, 3],
                  [15, -2], [3, 13], [-7, -7]];
 
-    starShapedPolygon.addNodes(nodes);
-    visibilityGraph.addNodes(nodes);
+    graph.addNodes(nodes);
 
-    starShapedPolygon.starShapedPolygon(true);
-    visibilityGraph.visibilityGraph(true);
-    visibilityGraph.longestConvexChainLabels(true);
+    graph.starShapedPolygon(true, true);
+    graph.visibilityGraph(true, true);
 
     this.SCR.animate();
   }

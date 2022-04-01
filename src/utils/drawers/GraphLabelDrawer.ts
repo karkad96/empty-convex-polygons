@@ -1,4 +1,4 @@
-import {IGraphDrawableLabel} from "../interfaces/IGraphDrawableLabel";
+import {IGraphDrawableLabel} from "../interfaces/idrawables/IGraphDrawableLabel";
 import {Nodes} from "../Nodes";
 import {Edges} from "../Edges";
 import {CSS2DObject} from "three/examples/jsm/renderers/CSS2DRenderer";
@@ -13,23 +13,19 @@ export class GraphLabelDrawer implements IGraphDrawableLabel {
     this.edges = _edges;
   }
 
-  private static makeLabel(edge: Line): void {
+  private makeLabel = (edge: Line): void => {
     let element = document.getElementById(edge.arrow.uuid);
     if(element && element.textContent == edge.weight.toString()) {
       return;
     }
-
     const edgeDiv = document.createElement('div');
-
     edgeDiv.className = 'label';
     edgeDiv.id = edge.arrow.uuid;
     edgeDiv.textContent = edge.weight.toString();
-
     const edgeLabel = new CSS2DObject(edgeDiv);
-
     edgeLabel.position.set(0, edge.arrow.length / 2, 0);
     edge.arrow.add(edgeLabel);
-  }
+  };
 
   public drawLabels(isAnimated: boolean = false): void {
     if(isAnimated) {
@@ -37,13 +33,13 @@ export class GraphLabelDrawer implements IGraphDrawableLabel {
       let delta = 1000;
       this.edges.forEach(edge => {
         setTimeout(() => {
-          GraphLabelDrawer.makeLabel(edge);
+          this.makeLabel(edge);
         }, timeout);
         timeout += delta;
       });
     } else {
       this.edges.forEach(edge => {
-        GraphLabelDrawer.makeLabel(edge);
+        this.makeLabel(edge);
       });
     }
   }

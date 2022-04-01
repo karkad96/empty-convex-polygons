@@ -33,28 +33,28 @@ export class Graph {
     this.edges.addEdge(a, b, color, isArrow);
   }
 
-  public starShapedPolygon(draw?: boolean): void {
+  public starShapedPolygon(draw: boolean = false, animate: boolean = false): void {
     this.graphAlgorithmsFactory.getStarShapedPolygon().runAlgorithm();
     if(draw) {
-      this.graphDrawer.drawGraph();
+      this.graphDrawer.drawGraph(animate);
     }
     this.nodes.sortByPosition();
   }
 
-  public visibilityGraph(draw?: boolean): void  {
+  public visibilityGraph(draw: boolean = false, animate: boolean = false): void  {
     this.graphAlgorithmsFactory.getVisibilityGraph().runAlgorithm();
     if(draw) {
-      this.graphDrawer.drawGraph(true);
+      this.graphDrawer.drawGraph(animate);
     }
     this.nodes.sortByPosition();
   }
 
-  public longestConvexChainLabels(draw?: boolean): void {
+  public longestConvexChainLabels(draw: boolean = false, animate: boolean = false): void {
     let algorithm = this.graphAlgorithmsFactory.getLongestConvexChain();
     algorithm.runAlgorithm();
     if(draw) {
       let labelDrawer = new GraphLabelDrawer(this.nodes, (algorithm as LongestConvexChain).edgesToLabel);
-      labelDrawer.drawLabels();
+      labelDrawer.drawLabels(animate);
     }
     this.nodes.sortByPosition();
   }

@@ -1,4 +1,4 @@
-import {IAlgorithm} from "../interfaces/IAlgorithm";
+import {IAlgorithm} from "../interfaces/ialgorithms/IAlgorithm";
 import {Nodes} from "../Nodes";
 import {Edges} from "../Edges";
 import {Line} from "../../models/Line";

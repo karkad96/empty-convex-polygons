@@ -17,6 +17,7 @@ export class Arrow2DHelper extends Object3D {
   private mat2: MeshBasicMaterial;
   private readonly arrowHead;
   public length: number;
+  public hasHead: boolean;
   constructor(dir       = new Vector3(0, 1, 0),
               origin    = new Vector3(0, 0, 0),
               length    = 1,
@@ -30,13 +31,9 @@ export class Arrow2DHelper extends Object3D {
     if (_lineGeometry === undefined) {
       _lineGeometry = new BufferGeometry();
       _lineGeometry.setAttribute('position', new Float32BufferAttribute([0, 0, 0, 0, 1, 0], 3));
-      _lineGeometry.morphAttributes['position'] = [];
-      _lineGeometry.morphAttributes['position'][0] = new Float32BufferAttribute([0, 0, 0], 3);
 
       _triangleGeometry = new BufferGeometry();
       _triangleGeometry.setAttribute('position', new Float32BufferAttribute([-0.5, 0, 0, 0.5, 0, 0, 0, Math.sqrt(3) / 2, 0], 3));
-      _triangleGeometry.morphAttributes['position'] = [];
-      _triangleGeometry.morphAttributes['position'][0] = new Float32BufferAttribute([1, 1, 1], 3);
     }
 
     this.position.copy(origin);
@@ -44,6 +41,8 @@ export class Arrow2DHelper extends Object3D {
     this.line = new Line(_lineGeometry, this.mat = new LineBasicMaterial({color: color}));
     this.line.matrixAutoUpdate = false;
     this.add(this.line);
+
+    this.hasHead = !(headLength == 0 || headWidth == 0);
 
     this.arrowHead = new Mesh(_triangleGeometry, this.mat2 = new MeshBasicMaterial({color: color}));
     this.arrowHead.matrixAutoUpdate = false;
@@ -64,7 +63,7 @@ export class Arrow2DHelper extends Object3D {
     }
   }
 
-  public setLength(length: number, headLength = length * 0.2, headWidth = headLength * 0.2) {
+  public setLength(length: number, headLength = 0, headWidth = 0) {
     this.line.scale.set(1, length - headLength, 0);
     this.line.updateMatrix();
 

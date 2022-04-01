@@ -1,5 +1,5 @@
-import {IGraphAlgorithmsFactory} from "../interfaces/IGraphAlgorithmsFactory";
-import {IAlgorithm} from "../interfaces/IAlgorithm";
+import {IGraphAlgorithmsFactory} from "../interfaces/ifactories/IGraphAlgorithmsFactory";
+import {IAlgorithm} from "../interfaces/ialgorithms/IAlgorithm";
 import {VisibilityGraph} from "../algorithms/VisibilityGraph";
 import {Nodes} from "../Nodes";
 import {Edges} from "../Edges";
