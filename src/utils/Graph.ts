@@ -19,6 +19,12 @@ export class Graph {
     this.graphDrawer = new GraphDrawer(this.nodes, this.edges, this.SCR);
   }
 
+  private clearEdges(): void {
+    while(this.edges.length) {
+      this.edges.pop();
+    }
+  }
+
   public addNodes(x: number | number[][], y: number = 0): void {
     if(typeof(x) == 'number') {
       this.nodes.addNode(x, y);
@@ -34,6 +40,7 @@ export class Graph {
   }
 
   public starShapedPolygon(draw: boolean = false, animate: boolean = false): void {
+    this.clearEdges();
     this.graphAlgorithmsFactory.getStarShapedPolygon().runAlgorithm();
     if(draw) {
       this.graphDrawer.drawGraph(animate);
@@ -42,6 +49,7 @@ export class Graph {
   }
 
   public visibilityGraph(draw: boolean = false, animate: boolean = false): void  {
+    this.clearEdges();
     this.graphAlgorithmsFactory.getVisibilityGraph().runAlgorithm();
     if(draw) {
       this.graphDrawer.drawGraph(animate);
@@ -50,6 +58,7 @@ export class Graph {
   }
 
   public longestConvexChainLabels(draw: boolean = false, animate: boolean = false): void {
+    this.clearEdges();
     let algorithm = this.graphAlgorithmsFactory.getLongestConvexChain();
     algorithm.runAlgorithm();
     if(draw) {

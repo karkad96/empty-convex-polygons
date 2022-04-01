@@ -6,7 +6,6 @@ import {ScrService} from "../../services/ScrService";
 
 export class GraphAnimation implements IGraphAnimation {
   constructor(private SCR: ScrService) {
-
   }
 
   private setLengthOfArrow = (edge: Line, coords: {x: number, y: number}): void => {
@@ -29,7 +28,7 @@ export class GraphAnimation implements IGraphAnimation {
     let tween = new TWEEN.Tween({ x: 0, y: 0 })
       .to({ x: 1, y: 1 }, 500)
       .onUpdate((coords) => {
-        this.setLengthOfArrow(edge, coords);
+       this.setLengthOfArrow(edge, coords);
       }).easing(TWEEN.Easing.Circular.Out);
     if(isStartingEdge) {
       tween.start();
@@ -38,14 +37,13 @@ export class GraphAnimation implements IGraphAnimation {
   }
 
   public animateEdges(edges: Edges) {
-    this.SCR.scene.add(edges[0].arrow);
     this.setTweenProperly(edges[0]);
-    for(let i = 1; i < edges.length; i++) {
-      let nextTween = this.prepareAnimationOfEdge(edges[i]);
+    edges.forEach((edge) => {
+      let nextTween = this.prepareAnimationOfEdge(edge);
       this.SCR.tween.onComplete(() => {
-        this.SCR.scene.add(edges[i].arrow);
+        this.SCR.scene.add(edge.arrow);
       }).chain(nextTween);
       this.SCR.tween = nextTween;
-    }
+    });
   }
 }
