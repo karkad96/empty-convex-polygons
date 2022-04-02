@@ -4,6 +4,7 @@ import {Injectable} from "@angular/core";
 import Stats from "three/examples/jsm/libs/stats.module";
 import {CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
 import * as TWEEN from "@tweenjs/tween.js";
+import {Clock} from "three";
 
 @Injectable({
   providedIn: 'root',
@@ -20,9 +21,9 @@ export class ScrService {
   public renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
   public labelRenderer = new CSS2DRenderer();
   public orbitControls: OrbitControls;
-  public tween: TWEEN.Tween<{ x: number, y: number }> = new TWEEN.Tween({ x: 0, y: 0 });
+  public tween: TWEEN.Tween<{ x: number, y: number }> = new TWEEN.Tween({ x: 0, y: 0 }).start();
   private stats: Stats;
-
+  public clock: Clock = new Clock();
   constructor() {
     this.camera.position.set(0, 0, 10);
 

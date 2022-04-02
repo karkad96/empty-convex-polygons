@@ -21,7 +21,7 @@ export class RunnerComponent implements OnInit {
     graph.addNodes(nodes);
 
     graph.starShapedPolygon(true, true);
-    graph.visibilityGraph(true);
+    graph.visibilityGraph(true, true);
 
     this.SCR.animate();
   }

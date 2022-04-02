@@ -1,8 +1,8 @@
 import {IGraphAnimation} from "../interfaces/ianimations/IGraphAnimation";
 import * as TWEEN from "@tweenjs/tween.js";
-import {Line} from "../../models/Line";
-import {Edges} from "../Edges";
 import {ScrService} from "../../services/ScrService";
+import {Edges} from "../Edges";
+import {Line} from "../../models/Line";
 
 export class GraphAnimation implements IGraphAnimation {
   constructor(private SCR: ScrService) {
@@ -16,34 +16,32 @@ export class GraphAnimation implements IGraphAnimation {
     }
   }
 
-  private setTweenProperly(edge: Line): void {
-    if(this.SCR.tween.isPlaying()) {
-      this.SCR.tween.chain(this.prepareAnimationOfEdge(edge));
-    } else {
-      this.SCR.tween = this.prepareAnimationOfEdge(edge, true);
-    }
-  }
-
-  public prepareAnimationOfEdge(edge: Line, isStartingEdge: boolean = false): TWEEN.Tween<{ x: number, y: number }> {
-    let tween = new TWEEN.Tween({ x: 0, y: 0 })
-      .to({ x: 1, y: 1 }, 500)
+  public prepareAnimationOfEdge(edge: Line): TWEEN.Tween<{ x: number, y: number }> {
+    return new TWEEN.Tween({x: 0, y: 0})
+      .to({x: 1, y: 1}, 500)
       .onUpdate((coords) => {
-       this.setLengthOfArrow(edge, coords);
+        this.setLengthOfArrow(edge, coords);
       }).easing(TWEEN.Easing.Circular.Out);
-    if(isStartingEdge) {
-      tween.start();
-    }
-    return tween;
   }
 
   public animateEdges(edges: Edges) {
-    this.setTweenProperly(edges[0]);
-    edges.forEach((edge) => {
-      let nextTween = this.prepareAnimationOfEdge(edge);
+    this.executeAnimation(edges).then(() => {
+      this.SCR.tween.pause();
+    });
+  }
+
+  public executeAnimation(edges: Edges) {
+    return new Promise((resolve) => {
+      edges.forEach((edge) => {
+        let nextTween = this.prepareAnimationOfEdge(edge);
+        this.SCR.tween.onComplete(() => {
+          this.SCR.scene.add(edge.arrow);
+        }).chain(nextTween);
+        this.SCR.tween = nextTween;
+      });
       this.SCR.tween.onComplete(() => {
-        this.SCR.scene.add(edge.arrow);
-      }).chain(nextTween);
-      this.SCR.tween = nextTween;
+        return resolve(true);
+      });
     });
   }
 }
