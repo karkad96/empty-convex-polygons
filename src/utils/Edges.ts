@@ -4,12 +4,10 @@ import * as THREE from "three";
 import {Point} from "../models/Point";
 
 export class Edges extends Array<Line> {
-  constructor(lines?: Line[]) {
+  constructor(line?: Line) {
     super();
-    if(lines) {
-      lines?.forEach(line => {
-        this.AddEdgeByLine(line);
-      });
+    if(line) {
+      this.addEdgeByLine(line);
     }
   }
 
@@ -24,7 +22,7 @@ export class Edges extends Array<Line> {
     this.push({p1: a, p2: b, arrow: arrowHelper, weight});
   }
 
-  public AddEdgeByLine(line: Line): void {
+  public addEdgeByLine(line: Line): void {
     this.push(line);
   }
 }

@@ -18,7 +18,7 @@ export class StarShapedPolygon implements IAlgorithm {
     this.edges.addEdge(this.nodes[0], this.nodes[this.nodes.length - 1], 0x00ff00, false);
 
     for(let i = 1; i < this.nodes.length - 1; i++) {
-      this.edges.addEdge(this.nodes[i],this.nodes[i + 1], 0x00ff00, false);
+      this.edges.addEdge(this.nodes[i], this.nodes[i + 1], 0x00ff00, false);
     }
   }
 

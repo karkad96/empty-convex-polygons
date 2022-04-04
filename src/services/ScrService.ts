@@ -21,9 +21,11 @@ export class ScrService {
   public renderer: THREE.WebGLRenderer = new THREE.WebGLRenderer();
   public labelRenderer = new CSS2DRenderer();
   public orbitControls: OrbitControls;
-  public tween: TWEEN.Tween<{ x: number, y: number }> = new TWEEN.Tween({ x: 0, y: 0 }).start();
-  private stats: Stats;
   public clock: Clock = new Clock();
+  public tween: TWEEN.Tween<{ x: number, y: number }> = new TWEEN.Tween({ x: 0, y: 0 })
+                                                                 .to({x: 0, y: 0}, 0)
+                                                                 .start();
+  private stats: Stats;
   constructor() {
     this.camera.position.set(0, 0, 10);
 

@@ -4,7 +4,6 @@ import {ScrService} from "../services/ScrService";
 import {Point} from "../models/Point";
 import {GraphAlgorithmsFactory} from "./factories/GraphAlgorithmsFactory";
 import {GraphDrawer} from "./drawers/GraphDrawer";
-import {LongestConvexChain} from "./algorithms/LongestConvexChain";
 import {GraphLabelDrawer} from "./drawers/GraphLabelDrawer";
 
 export class Graph {
@@ -58,11 +57,11 @@ export class Graph {
   }
 
   public longestConvexChainLabels(draw: boolean = false, animate: boolean = false): void {
-    this.clearEdges();
+    this.visibilityGraph();
     let algorithm = this.graphAlgorithmsFactory.getLongestConvexChain();
     algorithm.runAlgorithm();
     if(draw) {
-      let labelDrawer = new GraphLabelDrawer(this.nodes, (algorithm as LongestConvexChain).edgesToLabel);
+      let labelDrawer = new GraphLabelDrawer(this.nodes, this.edges, this.SCR);
       labelDrawer.drawLabels(animate);
     }
     this.nodes.sortByPosition();

@@ -16,13 +16,7 @@ export class GraphDrawer extends AlgorithmVisualizer implements IGraphDrawable {
   }
 
   public drawEdges(isAnimated: boolean = false): void {
-    if(isAnimated && this.edges[0]) {
-      (this.animation as GraphAnimation).animateEdges(this.edges);
-    } else {
-      this.edges.forEach(edge => {
-        this.SCR.scene.add(edge.arrow);
-      });
-    }
+    (this.animation as GraphAnimation).animateEdges(this.edges, isAnimated);
   }
 
   public drawNodes(isAnimated: boolean = false): void {

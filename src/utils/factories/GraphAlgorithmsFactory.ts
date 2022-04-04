@@ -23,7 +23,7 @@ export class GraphAlgorithmsFactory implements IGraphAlgorithmsFactory {
     return new VisibilityGraph(this.nodes, this.edges);
   }
 
-  getLongestConvexChain(): IAlgorithm {
+  public getLongestConvexChain(): IAlgorithm {
     return new LongestConvexChain(this.nodes, this.edges);
   }
 }
