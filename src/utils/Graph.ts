@@ -1,19 +1,20 @@
-import {Nodes} from "./Nodes";
-import {Edges} from "./Edges";
 import {ScrService} from "../services/ScrService";
-import {Point} from "../models/Point";
 import {GraphAlgorithmsFactory} from "./factories/GraphAlgorithmsFactory";
 import {GraphDrawer} from "./drawers/GraphDrawer";
 import {GraphLabelDrawer} from "./drawers/GraphLabelDrawer";
+import {Edge} from "./Edge";
+import {Node} from "./Node";
+import {PointBase} from "./objects/points/PointBase";
+import {Vector3} from "three";
 
 export class Graph {
-  private readonly nodes: Nodes;
-  private readonly edges: Edges;
+  private readonly nodes: Node[];
+  private readonly edges: Edge[];
   private graphAlgorithmsFactory: GraphAlgorithmsFactory;
   private graphDrawer: GraphDrawer;
   constructor(private SCR: ScrService) {
-    this.nodes = new Nodes();
-    this.edges = new Edges();
+    this.nodes = [];
+    this.edges = [];
     this.graphAlgorithmsFactory = new GraphAlgorithmsFactory(this.nodes, this.edges);
     this.graphDrawer = new GraphDrawer(this.nodes, this.edges, this.SCR);
   }
@@ -26,16 +27,12 @@ export class Graph {
 
   public addNodes(x: number | number[][], y: number = 0): void {
     if(typeof(x) == 'number') {
-      this.nodes.addNode(x, y);
+      this.nodes.push(new Node(new PointBase(new Vector3(x, y, 0), 0.15)));
     } else {
       x.forEach(row => {
-        this.nodes.addNode(row[0], row[1]);
+        this.nodes.push(new Node(new PointBase(new Vector3(row[0], row[1], 0), 0.15)));
       });
     }
-  }
-
-  public addEdge(a: Point, b: Point, color: number, isArrow: boolean = true): void {
-    this.edges.addEdge(a, b, color, isArrow);
   }
 
   public starShapedPolygon(draw: boolean = false, animate: boolean = false): void {

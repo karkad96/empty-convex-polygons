@@ -1,14 +1,15 @@
 import {IAlgorithm} from "../interfaces/ialgorithms/IAlgorithm";
-import {Nodes} from "../Nodes";
-import {Edges} from "../Edges";
+import {Node} from "../Node";
+import {Edge} from "../Edge";
 import {Queue} from "queue-typescript";
+import {LineArrow} from "../objects/lines/LineArrow";
 
 export class VisibilityGraph implements IAlgorithm {
-  private readonly nodes: Nodes;
-  private edges: Edges;
+  private readonly nodes: Node[];
+  protected edges: Edge[];
   private queue: Queue<number>[] = [];
 
-  constructor(_nodes: Nodes, _edges: Edges) {
+  constructor(_nodes: Node[], _edges: Edge[]) {
     this.nodes = _nodes;
     this.edges = _edges;
   }
@@ -18,7 +19,7 @@ export class VisibilityGraph implements IAlgorithm {
       this.proceed(this.queue[i].front, j);
       this.queue[i].dequeue();
     }
-    this.edges.addEdge(this.nodes[i], this.nodes[j], 0x0000ff);
+    this.edges.push(new Edge(new LineArrow(this.nodes[i].point.origin, this.nodes[j].point.origin, 0, 0x0000ff)));
     this.queue[j].enqueue(i);
   }
 

@@ -38,7 +38,7 @@ export class ScrService {
     document.body.appendChild(this.labelRenderer.domElement);
 
     this.orbitControls = new OrbitControls(this.camera, this.labelRenderer.domElement);
-    this.orbitControls.enableRotate = false;
+    //this.orbitControls.enableRotate = false;
 
     let grid = new THREE.GridHelper(100, 100, new THREE.Color( 0x7a7a7a ), new THREE.Color( 0x3a3a3a ));
     grid.geometry.rotateX(Math.PI / 2);

@@ -1,16 +1,16 @@
 import {IGraphDrawableLabel} from "../interfaces/idrawables/IGraphDrawableLabel";
-import {Nodes} from "../Nodes";
-import {Edges} from "../Edges";
+import {Node} from "../Node";
+import {Edge} from "../Edge";
 import {CSS2DObject} from "three/examples/jsm/renderers/CSS2DRenderer";
 import {AlgorithmVisualizer} from "../algorithms/AlgorithmVisualizer";
 import {ScrService} from "../../services/ScrService";
 import {LabelAnimation} from "../animations/LabelAnimation";
 
 export class GraphLabelDrawer extends AlgorithmVisualizer implements IGraphDrawableLabel {
-  private readonly nodes: Nodes;
-  private readonly edges: Edges;
+  protected readonly nodes: Node[];
+  private readonly edges: Edge[];
 
-  constructor(_nodes: Nodes, _edges: Edges, private SCR: ScrService) {
+  constructor(_nodes: Node[], _edges: Edge[], private SCR: ScrService) {
     super(new LabelAnimation(SCR));
     this.nodes = _nodes;
     this.edges = _edges;
@@ -20,11 +20,11 @@ export class GraphLabelDrawer extends AlgorithmVisualizer implements IGraphDrawa
     this.edges.forEach((edge) => {
       const edgeDiv = document.createElement('div');
       edgeDiv.className = 'label';
-      edgeDiv.id = edge.arrow.uuid;
-      edgeDiv.textContent = edge.weight.toString();
+      edgeDiv.id = edge.line.uuid;
+      edgeDiv.textContent = edge.line.weight.toString();
       const edgeLabel = new CSS2DObject(edgeDiv);
-      edgeLabel.position.set(0, edge.arrow.length / 2, 0);
-      edge.arrow.add(edgeLabel);
+      edgeLabel.position.set(0, edge.line.length / 2, 0);
+      edge.line.add(edgeLabel);
     });
   };
 

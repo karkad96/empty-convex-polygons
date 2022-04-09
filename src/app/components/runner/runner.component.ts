@@ -13,16 +13,17 @@ export class RunnerComponent implements OnInit {
 
   ngOnInit(): void {
     let graph = new Graph(this.SCR);
-    let nodes = [[5, 5],   [-5, 7], [2, 1],
+    let points = [[5, 5],   [-5, 7], [2, 1],
                  [-3, 2],  [-1, 1], [3, -3],
                  [-11, 5], [4, 13], [21, 3],
                  [15, -2], [3, 13], [-7, -7]];
 
-    graph.addNodes(nodes);
+    graph.addNodes(points);
 
     graph.starShapedPolygon(true, true);
     graph.visibilityGraph(true, true);
     graph.longestConvexChainLabels(true, true);
+
 
     this.SCR.animate();
   }

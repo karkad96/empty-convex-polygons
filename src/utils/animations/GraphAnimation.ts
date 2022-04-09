@@ -1,39 +1,40 @@
 import {IGraphAnimation} from "../interfaces/ianimations/IGraphAnimation";
 import * as TWEEN from "@tweenjs/tween.js";
 import {ScrService} from "../../services/ScrService";
-import {Arrow2DHelper} from "../../helpers/Arrow2DHelper";
-import {Edges} from "../Edges";
+import {LineArrow} from "../objects/lines/LineArrow";
+import {Edge} from "../Edge";
+import {LineBase} from "../objects/lines/LineBase";
 
 export class GraphAnimation implements IGraphAnimation {
   constructor(private SCR: ScrService) {
   }
 
-  private setLengthOfArrow = (arrow: Arrow2DHelper, coords: {x: number, y: number}): void => {
-    if(arrow.hasHead) {
-      arrow.setLength(coords.x * arrow.length, 0.2, 0.2);
+  private setLengthOfArrow = (line: LineBase, coords: {x: number, y: number}): void => {
+    if(line instanceof LineArrow) {
+      line.setLength(coords.x * line.length, 0.2, 0.2);
     } else {
-      arrow.setLength(coords.x * arrow.length);
+      line.setLength(coords.x * line.length);
     }
   }
 
-  public prepareAnimationOfEdge(arrow: Arrow2DHelper): TWEEN.Tween<{ x: number, y: number }> {
+  public prepareAnimationOfEdge(line: LineBase): TWEEN.Tween<{ x: number, y: number }> {
     return new TWEEN.Tween({x: 0, y: 0})
       .to({x: 1, y: 1}, 350)
       .onUpdate((coords) => {
-        this.setLengthOfArrow(arrow, coords);
+        this.setLengthOfArrow(line, coords);
       }).easing(TWEEN.Easing.Circular.Out);
   }
 
-  public animateEdges(edges: Edges, animate: boolean) {
-    this.executeAnimation(edges.map((line) => line.arrow), animate);
+  public animateEdges(edges: Edge[], animate: boolean) {
+    this.executeAnimation(edges.map((edge) => edge.line), animate);
   }
 
-  private executeAnimation(arrows: Arrow2DHelper[], animate: boolean) {
+  private executeAnimation(lines: LineBase[], animate: boolean) {
     if(animate) {
-      arrows.forEach((arrow) => {
-        let nextTween = this.prepareAnimationOfEdge(arrow);
+      lines.forEach((line) => {
+        let nextTween = this.prepareAnimationOfEdge(line);
         this.SCR.tween.onComplete(() => {
-          this.SCR.scene.add(arrow);
+          this.SCR.scene.add(line);
         }).chain(nextTween);
         this.SCR.tween = nextTween;
       });
@@ -41,8 +42,8 @@ export class GraphAnimation implements IGraphAnimation {
       let chain = new TWEEN.Tween({x: 0, y: 0}).
       to({x: 0, y: 0}, 0).
       onStart(() => {
-        arrows.forEach((arrow) => {
-          this.SCR.scene.add(arrow);
+        lines.forEach((line) => {
+          this.SCR.scene.add(line);
         });
       });
       this.SCR.tween.chain(chain);

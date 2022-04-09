@@ -1,9 +1,9 @@
 import * as TWEEN from "@tweenjs/tween.js";
 import {IAnimation} from "./IAnimation";
-import {Edges} from "../../Edges";
-import {Arrow2DHelper} from "../../../helpers/Arrow2DHelper";
+import {Edge} from "../../Edge";
+import {LineBase} from "../../objects/lines/LineBase";
 
 export abstract class IGraphAnimation implements IAnimation {
-  abstract prepareAnimationOfEdge(arrow: Arrow2DHelper): TWEEN.Tween<{ x: number, y: number }>;
-  abstract animateEdges(edges: Edges, animate: boolean): void;
+  abstract prepareAnimationOfEdge(line: LineBase): TWEEN.Tween<{ x: number, y: number }>;
+  abstract animateEdges(edges: Edge[], animate: boolean): void;
 }

@@ -1,15 +1,15 @@
 import {IGraphDrawable} from "../interfaces/idrawables/IGraphDrawable";
-import {Nodes} from "../Nodes";
-import {Edges} from "../Edges";
+import {Node} from "../Node";
+import {Edge} from "../Edge";
 import {ScrService} from "../../services/ScrService";
 import {AlgorithmVisualizer} from "../algorithms/AlgorithmVisualizer";
 import {GraphAnimation} from "../animations/GraphAnimation";
 
 export class GraphDrawer extends AlgorithmVisualizer implements IGraphDrawable {
-  private readonly nodes: Nodes;
-  private readonly edges: Edges;
+  private readonly nodes: Node[];
+  private readonly edges: Edge[];
 
-  constructor(_nodes: Nodes, _edges: Edges, private SCR: ScrService) {
+  constructor(_nodes: Node[], _edges: Edge[], private SCR: ScrService) {
     super(new GraphAnimation(SCR));
     this.nodes = _nodes;
     this.edges = _edges;
@@ -21,7 +21,7 @@ export class GraphDrawer extends AlgorithmVisualizer implements IGraphDrawable {
 
   public drawNodes(isAnimated: boolean = false): void {
     this.nodes.forEach(node => {
-      this.SCR.scene.add(node.mesh);
+      this.SCR.scene.add(node.point.circle);
     });
   }
 

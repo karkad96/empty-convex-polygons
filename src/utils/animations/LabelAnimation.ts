@@ -1,30 +1,30 @@
 import {ILabelAnimation} from "../interfaces/ianimations/ILabelAnimation";
 import {ScrService} from "../../services/ScrService";
 import * as TWEEN from "@tweenjs/tween.js";
-import {Edges} from "../Edges";
-import {Arrow2DHelper} from "../../helpers/Arrow2DHelper";
+import {Edge} from "../Edge";
+import {LineBase} from "../objects/lines/LineBase";
 
 export class LabelAnimation implements ILabelAnimation {
   constructor(private SCR: ScrService) {
   }
 
-  public prepareAnimationOfLabel(arrow: Arrow2DHelper): TWEEN.Tween<{ x: number, y: number }> {
+  public prepareAnimationOfLabel(line: LineBase): TWEEN.Tween<{ x: number, y: number }> {
     return new TWEEN.Tween({x: 0, y: 0})
       .to({x: 1, y: 1}, 500)
       .onUpdate(() => {
       }).easing(TWEEN.Easing.Circular.Out);
   }
 
-  public animateLabels(edges: Edges, animate: boolean) {
-    this.executeAnimation(edges.map((lines) => lines.arrow), animate);
+  public animateLabels(edges: Edge[], animate: boolean) {
+    this.executeAnimation(edges.map((edge) => edge.line), animate);
   }
 
-  public executeAnimation(arrows: Arrow2DHelper[], animate: boolean) {
+  public executeAnimation(lines: LineBase[], animate: boolean) {
     if(animate) {
-      arrows.forEach((arrow) => {
-        let nextTween = this.prepareAnimationOfLabel(arrow);
+      lines.forEach((line) => {
+        let nextTween = this.prepareAnimationOfLabel(line);
         this.SCR.tween.onComplete(() => {
-          this.SCR.scene.add(arrow);
+          this.SCR.scene.add(line);
         }).chain(nextTween);
         this.SCR.tween = nextTween;
       });
@@ -32,8 +32,8 @@ export class LabelAnimation implements ILabelAnimation {
       let chain = new TWEEN.Tween({x: 0, y: 0}).
       to({x: 0, y: 0}, 0).
       onStart(() => {
-        arrows.forEach((arrow) => {
-          this.SCR.scene.add(arrow);
+        lines.forEach((line) => {
+          this.SCR.scene.add(line);
         });
       });
       this.SCR.tween.chain(chain);
