@@ -1,5 +1,5 @@
 import {Point} from "./Point";
-import {LineArrow} from "../utils/objects/lines/LineArrow";
+import {LineArrow} from "../utils/objects/edges/LineArrow";
 
 export interface Line {
   p1: Point;

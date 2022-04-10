@@ -2,11 +2,11 @@ import { Float32BufferAttribute } from 'three/src/core/BufferAttribute.js';
 import { BufferGeometry } from 'three/src/core/BufferGeometry.js';
 import {Mesh, MeshBasicMaterial, Vector3} from "three";
 import {ColorRepresentation} from "three/src/utils";
-import {LineBase} from "./LineBase";
+import {Edge} from "./Edge";
 
 let _triangleGeometry: BufferGeometry;
 
-export class LineArrow extends LineBase {
+export class ArrowedEdge extends Edge {
   override type: string;
   private arrowHeadMaterial: MeshBasicMaterial;
   private readonly arrowHead;
@@ -40,7 +40,7 @@ export class LineArrow extends LineBase {
     this.line.scale.set(1, length - headLength, 0);
     this.line.updateMatrix();
 
-    this.arrowHead.scale.set(headWidth, headLength, headWidth);
+    this.arrowHead.scale.set(headWidth, headLength, 0);
     this.arrowHead.position.y = length - headLength;
     this.arrowHead.updateMatrix();
   }

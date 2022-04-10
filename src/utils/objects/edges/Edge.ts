@@ -6,18 +6,18 @@ import { Line } from 'three/src/objects/Line';
 import {Vector3} from "three";
 import {ColorRepresentation} from "three/src/utils";
 
-const _axis = /*@__PURE__*/ new Vector3();
+const _axis = new Vector3();
 let _lineGeometry: BufferGeometry;
 
-export class LineBase extends Object3D {
+export class Edge extends Object3D {
   override type: string;
   private lineMaterial: LineBasicMaterial;
 
   protected dir: Vector3 = new Vector3();
   protected origin: Vector3 = new Vector3();
+  protected readonly line: Line;
 
   public length: number;
-  public readonly line: Line;
 
   constructor(public pFrom: Vector3 = new Vector3(0, 0, 0),
               public pTo: Vector3 = new Vector3(0, 1, 0),
@@ -34,11 +34,8 @@ export class LineBase extends Object3D {
 
     this.pFrom = pFrom; this.pTo = pTo; this.weight = weight;
 
-    let p1 = new Vector3(this.pFrom.x, this.pFrom.y);
-    let p2 = new Vector3(this.pTo.x, this.pTo.y);
-
-    this.dir.subVectors(p2, p1);
-    this.origin.copy(p1);
+    this.dir.subVectors(this.pTo, this.pFrom);
+    this.origin.copy(this.pFrom);
 
     this.length = this.dir.length();
     this.dir.normalize();

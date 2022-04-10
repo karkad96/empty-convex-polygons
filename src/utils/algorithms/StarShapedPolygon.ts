@@ -1,26 +1,25 @@
 import {IAlgorithm} from "../interfaces/ialgorithms/IAlgorithm";
-import {Node} from "../Node";
-import {Edge} from "../Edge";
+import {Vertex} from "../objects/vertices/Vertex";
+import {Edge} from "../objects/edges/Edge";
 import "../extensions/ArrayPointExtensions";
-import {LineBase} from "../objects/lines/LineBase";
 
 export class StarShapedPolygon implements IAlgorithm {
-  private nodes: Node[];
+  private vertices: Vertex[];
   protected edges: Edge[];
 
-  constructor(_nodes: Node[], _edges: Edge[]) {
-    this.nodes = _nodes;
+  constructor(_nodes: Vertex[], _edges: Edge[]) {
+    this.vertices = _nodes;
     this.edges = _edges;
   }
 
   private starShapedPolygon(): void {
-    this.nodes.sortByAngle();
+    this.vertices.sortByAngle();
 
-    this.edges.push(new Edge(new LineBase(this.nodes[0].point.origin, this.nodes[1].point.origin, 0, 0x00ff00)));
-    this.edges.push(new Edge(new LineBase(this.nodes[0].point.origin, this.nodes[this.nodes.length - 1].point.origin, 0, 0x00ff00)));
+    this.edges.push(new Edge(this.vertices[0].origin, this.vertices[1].origin, 0, 0x00ff00));
+    this.edges.push(new Edge(this.vertices[0].origin, this.vertices[this.vertices.length - 1].origin, 0, 0x00ff00));
 
-    for(let i = 1; i < this.nodes.length - 1; i++) {
-      this.edges.push(new Edge(new LineBase(this.nodes[i].point.origin, this.nodes[i + 1].point.origin, 0, 0x00ff00)));
+    for(let i = 1; i < this.vertices.length - 1; i++) {
+      this.edges.push(new Edge(this.vertices[i].origin, this.vertices[i + 1].origin, 0, 0x00ff00));
     }
   }
 

@@ -5,7 +5,7 @@ import * as THREE from "three";
 
 let _nodeGeometry: BufferGeometry;
 
-export class PointBase extends Object3D {
+export class Vertex extends Object3D {
   override type: string;
   public circle: THREE.Mesh;
   public angle: number = 0;
@@ -14,7 +14,7 @@ export class PointBase extends Object3D {
               private segments: number = 15) {
     super();
 
-    this.type = 'PointBase';
+    this.type = 'Vertex';
 
     if (_nodeGeometry === undefined) {
       _nodeGeometry = new CircleGeometry(this.radius, this.segments);

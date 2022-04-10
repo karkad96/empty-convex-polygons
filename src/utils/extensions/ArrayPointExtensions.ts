@@ -1,8 +1,8 @@
-import {Node} from "../Node";
+import {Vertex} from "../objects/vertices/Vertex";
 export {};
 
 declare global {
-  interface Array<T = Node> {
+  interface Array<T = Vertex> {
     sortByAngle(): void;
     sortByPosition(): void;
     cross(i: number, j: number, k: number): number;
@@ -10,29 +10,27 @@ declare global {
 }
 
 Array.prototype.sortByAngle = function () {
-  let _self = this;
-  for(let i = 0; i < _self.length; i++) {
-    _self[i].point.angle = Math.atan2(_self[i].point.circle.position.y - _self[i].point.circle.position.y,
-      _self[i].point.circle.position.x - _self[i].point.circle.position.x);
-  }
-  console.log(_self);
-  let firstElement = _self.shift();
-  _self.sort((a,b) => a.point.angle - b.point.angle);
-  _self.unshift(firstElement!);
+  this.sortByPosition();
+  this.forEach((vertex) => {
+    vertex.angle = Math.atan2(vertex.origin.y - this[0].origin.y,
+      vertex.origin.x - this[0].origin.x);
+  });
 
+  let firstElement = this.shift();
+  this.sort((a,b) => a.angle - b.angle);
+  this.unshift(firstElement!);
+
+  return this;
 };
 
 Array.prototype.sortByPosition = function () {
-  let _self = this as Array<Node>;
-  _self.sort((a,b)=> a.point.circle.position.x - b.point.circle.position.x);
-
-  return _self;
+  this.sort((a,b)=> a.circle.position.x - b.circle.position.x);
+  return this;
 };
 
 Array.prototype.cross = function (i: number, j: number, k: number): number {
-  let _self = this as Array<Node>;
-  return (_self[j].point.circle.position.x - _self[i].point.circle.position.x) *
-    (_self[k].point.circle.position.y - _self[i].point.circle.position.y) -
-    (_self[k].point.circle.position.x - _self[i].point.circle.position.x) *
-    (_self[j].point.circle.position.y - _self[i].point.circle.position.y);
+  return (this[j].origin.x - this[i].origin.x) *
+         (this[k].origin.y - this[i].origin.y) -
+         (this[k].origin.x - this[i].origin.x) *
+         (this[j].origin.y - this[i].origin.y);
 };

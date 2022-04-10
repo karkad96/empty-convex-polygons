@@ -1,14 +1,13 @@
 import {ILabelAnimation} from "../interfaces/ianimations/ILabelAnimation";
 import {ScrService} from "../../services/ScrService";
 import * as TWEEN from "@tweenjs/tween.js";
-import {Edge} from "../Edge";
-import {LineBase} from "../objects/lines/LineBase";
+import {Edge} from "../objects/edges/Edge";
 
 export class LabelAnimation implements ILabelAnimation {
   constructor(private SCR: ScrService) {
   }
 
-  public prepareAnimationOfLabel(line: LineBase): TWEEN.Tween<{ x: number, y: number }> {
+  public prepareAnimationOfLabel(edge: Edge): TWEEN.Tween<{ x: number, y: number }> {
     return new TWEEN.Tween({x: 0, y: 0})
       .to({x: 1, y: 1}, 500)
       .onUpdate(() => {
@@ -16,15 +15,15 @@ export class LabelAnimation implements ILabelAnimation {
   }
 
   public animateLabels(edges: Edge[], animate: boolean) {
-    this.executeAnimation(edges.map((edge) => edge.line), animate);
+    this.executeAnimation(edges, animate);
   }
 
-  public executeAnimation(lines: LineBase[], animate: boolean) {
+  public executeAnimation(edges: Edge[], animate: boolean) {
     if(animate) {
-      lines.forEach((line) => {
-        let nextTween = this.prepareAnimationOfLabel(line);
+      edges.forEach((edge) => {
+        let nextTween = this.prepareAnimationOfLabel(edge);
         this.SCR.tween.onComplete(() => {
-          this.SCR.scene.add(line);
+          this.SCR.scene.add(edge);
         }).chain(nextTween);
         this.SCR.tween = nextTween;
       });
@@ -32,8 +31,8 @@ export class LabelAnimation implements ILabelAnimation {
       let chain = new TWEEN.Tween({x: 0, y: 0}).
       to({x: 0, y: 0}, 0).
       onStart(() => {
-        lines.forEach((line) => {
-          this.SCR.scene.add(line);
+        edges.forEach((edge) => {
+          this.SCR.scene.add(edge);
         });
       });
       this.SCR.tween.chain(chain);
