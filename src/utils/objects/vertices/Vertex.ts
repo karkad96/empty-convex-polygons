@@ -7,9 +7,9 @@ let _nodeGeometry: BufferGeometry;
 
 export class Vertex extends Object3D {
   override type: string;
-  public circle: THREE.Mesh;
+  protected circle: THREE.Mesh;
   public angle: number = 0;
-  constructor(public origin: Vector3 = new Vector3(0, 0, 0),
+  constructor(public center: Vector3 = new Vector3(0, 0, 0),
               private radius: number = 1,
               private segments: number = 15) {
     super();
@@ -26,8 +26,8 @@ export class Vertex extends Object3D {
     });
 
     this.circle = new THREE.Mesh(_nodeGeometry, material);
+    this.circle.position.set(center.x, center.y, center.z);
 
-    this.circle.position.x = origin.x; this.circle.position.y = origin.y; this.circle.position.z = origin.z;
     this.add(this.circle);
   }
 }

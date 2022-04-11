@@ -1,17 +1,16 @@
-import {IGraphDrawableLabel} from "../interfaces/idrawables/IGraphDrawableLabel";
 import {Vertex} from "../objects/vertices/Vertex";
 import {Edge} from "../objects/edges/Edge";
 import {CSS2DObject} from "three/examples/jsm/renderers/CSS2DRenderer";
-import {AlgorithmVisualizer} from "../algorithms/AlgorithmVisualizer";
 import {ScrService} from "../../services/ScrService";
+import {IDrawable} from "../interfaces/idrawables/IDrawable";
+import {ObjectAnimator} from "../animations/ObjectAnimator";
 import {LabelAnimation} from "../animations/LabelAnimation";
 
-export class GraphLabelDrawer extends AlgorithmVisualizer implements IGraphDrawableLabel {
+export class GraphLabelDrawer extends ObjectAnimator implements IDrawable {
   protected readonly vertices: Vertex[];
   private readonly edges: Edge[];
-
-  constructor(_nodes: Vertex[], _edges: Edge[], private SCR: ScrService) {
-    super(new LabelAnimation(SCR));
+  constructor(_nodes: Vertex[], _edges: Edge[], SCR: ScrService) {
+    super(new LabelAnimation(), SCR);
     this.vertices = _nodes;
     this.edges = _edges;
   }
@@ -28,8 +27,8 @@ export class GraphLabelDrawer extends AlgorithmVisualizer implements IGraphDrawa
     });
   };
 
-  public drawLabels(isAnimated: boolean = false): void {
+  public drawObject(isAnimated: boolean = false): void {
     this.makeLabels();
-    (this.animation as LabelAnimation).animateLabels(this.edges, isAnimated);
+    this.executeAnimation(this.edges, isAnimated);
   }
 }

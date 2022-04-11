@@ -12,8 +12,8 @@ declare global {
 Array.prototype.sortByAngle = function () {
   this.sortByPosition();
   this.forEach((vertex) => {
-    vertex.angle = Math.atan2(vertex.origin.y - this[0].origin.y,
-      vertex.origin.x - this[0].origin.x);
+    vertex.angle = Math.atan2(vertex.center.y - this[0].center.y,
+      vertex.center.x - this[0].center.x);
   });
 
   let firstElement = this.shift();
@@ -24,13 +24,13 @@ Array.prototype.sortByAngle = function () {
 };
 
 Array.prototype.sortByPosition = function () {
-  this.sort((a,b)=> a.circle.position.x - b.circle.position.x);
+  this.sort((a,b)=> a.center.x - b.center.x);
   return this;
 };
 
 Array.prototype.cross = function (i: number, j: number, k: number): number {
-  return (this[j].origin.x - this[i].origin.x) *
-         (this[k].origin.y - this[i].origin.y) -
-         (this[k].origin.x - this[i].origin.x) *
-         (this[j].origin.y - this[i].origin.y);
+  return (this[j].center.x - this[i].center.x) *
+         (this[k].center.y - this[i].center.y) -
+         (this[k].center.x - this[i].center.x) *
+         (this[j].center.y - this[i].center.y);
 };

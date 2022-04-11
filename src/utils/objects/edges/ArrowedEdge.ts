@@ -23,7 +23,7 @@ export class ArrowedEdge extends Edge {
 
     if (_triangleGeometry === undefined) {
       _triangleGeometry = new BufferGeometry();
-      _triangleGeometry.setAttribute('position', new Float32BufferAttribute([-0.5, 0, 0, 0.5, 0, 0, 0, Math.sqrt(3) / 2, 0], 3));
+      _triangleGeometry.setAttribute('position', new Float32BufferAttribute([-0.5, 0, 0, 0.5, 0, 0, 0, 1, 0], 3));
     }
 
     this.position.copy(this.origin);

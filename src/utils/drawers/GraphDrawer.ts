@@ -1,32 +1,30 @@
-import {IGraphDrawable} from "../interfaces/idrawables/IGraphDrawable";
 import {Edge} from "../objects/edges/Edge";
 import {ScrService} from "../../services/ScrService";
-import {AlgorithmVisualizer} from "../algorithms/AlgorithmVisualizer";
-import {GraphAnimation} from "../animations/GraphAnimation";
+import {EdgeAnimation} from "../animations/EdgeAnimation";
 import {Vertex} from "../objects/vertices/Vertex";
+import {IDrawable} from "../interfaces/idrawables/IDrawable";
+import {ObjectAnimator} from "../animations/ObjectAnimator";
 
-export class GraphDrawer extends AlgorithmVisualizer implements IGraphDrawable {
+export class GraphDrawer extends ObjectAnimator implements IDrawable {
   private readonly vertices: Vertex[];
   private readonly edges: Edge[];
 
-  constructor(_nodes: Vertex[], _edges: Edge[], private SCR: ScrService) {
-    super(new GraphAnimation(SCR));
+  constructor(_nodes: Vertex[], _edges: Edge[], SCR: ScrService) {
+    super(new EdgeAnimation(), SCR);
     this.vertices = _nodes;
     this.edges = _edges;
   }
 
   public drawEdges(isAnimated: boolean = false): void {
-    (this.animation as GraphAnimation).animateEdges(this.edges, isAnimated);
+    this.executeAnimation(this.edges, isAnimated);
   }
 
   public drawNodes(isAnimated: boolean = false): void {
-    this.vertices.forEach(vertex => {
-      this.SCR.scene.add(vertex.circle);
-    });
+    this.executeAnimation(this.vertices, isAnimated);
   }
 
-  public drawGraph(isAnimated: boolean = false): void {
-    //this.drawNodes();
+  public drawObject(isAnimated: boolean = false): void {
+    this.drawNodes();
     this.drawEdges(isAnimated);
   }
 }

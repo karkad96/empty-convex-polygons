@@ -15,11 +15,11 @@ export class StarShapedPolygon implements IAlgorithm {
   private starShapedPolygon(): void {
     this.vertices.sortByAngle();
 
-    this.edges.push(new Edge(this.vertices[0].origin, this.vertices[1].origin, 0, 0x00ff00));
-    this.edges.push(new Edge(this.vertices[0].origin, this.vertices[this.vertices.length - 1].origin, 0, 0x00ff00));
+    this.edges.push(new Edge(this.vertices[0].center, this.vertices[1].center, 0, 0x00ff00));
+    this.edges.push(new Edge(this.vertices[0].center, this.vertices[this.vertices.length - 1].center, 0, 0x00ff00));
 
     for(let i = 1; i < this.vertices.length - 1; i++) {
-      this.edges.push(new Edge(this.vertices[i].origin, this.vertices[i + 1].origin, 0, 0x00ff00));
+      this.edges.push(new Edge(this.vertices[i].center, this.vertices[i + 1].center, 0, 0x00ff00));
     }
   }
 

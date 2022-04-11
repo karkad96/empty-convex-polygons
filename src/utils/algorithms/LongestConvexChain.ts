@@ -23,16 +23,16 @@ export class LongestConvexChain implements IAlgorithm {
 
   private getOutgoingEdges(): void {
     for(let i = 1; i < this.vertices.length; i++) {
-      this.edges.filter(edge => edge.pFrom == this.vertices[i].origin).forEach(edge => {
-        this.outgoingEdges[i].push(this.vertices.findIndex(vertex => vertex.origin == edge.pTo));
+      this.edges.filter(edge => edge.pFrom == this.vertices[i].center).forEach(edge => {
+        this.outgoingEdges[i].push(this.vertices.findIndex(vertex => vertex.center == edge.pTo));
       });
     }
   }
 
   private getIncomingEdges(): void {
     for(let i = 1; i < this.vertices.length; i++) {
-      this.edges.filter(edge => edge.pTo == this.vertices[i].origin).forEach(edge => {
-        this.incomingEdges[i].push(this.vertices.findIndex(vertex => vertex.origin == edge.pFrom));
+      this.edges.filter(edge => edge.pTo == this.vertices[i].center).forEach(edge => {
+        this.incomingEdges[i].push(this.vertices.findIndex(vertex => vertex.center == edge.pFrom));
       });
     }
   }
@@ -51,7 +51,7 @@ export class LongestConvexChain implements IAlgorithm {
   private treat(i: number): void {
     let m = 0;
     for(let j = this.incomingEdges[i].length - 1, l = this.outgoingEdges[i].length - 1; j >= 0; j--) {
-      let edge = this.edges.find(line => line.pFrom == this.vertices[this.incomingEdges[i][j]].origin && line.pTo == this.vertices[i].origin)!;
+      let edge = this.edges.find(line => line.pFrom == this.vertices[this.incomingEdges[i][j]].center && line.pTo == this.vertices[i].center)!;
       this.L[this.incomingEdges[i][j]][i] = m + 1;
       while(l >= 0 && this.vertices.cross(i, this.incomingEdges[i][j], this.outgoingEdges[i][l]) < 0) {
         if(this.L[i][this.outgoingEdges[i][l]] > m) {
