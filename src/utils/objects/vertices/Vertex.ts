@@ -2,6 +2,7 @@ import { BufferGeometry } from 'three/src/core/BufferGeometry.js';
 import { Object3D } from 'three/src/core/Object3D.js';
 import {CircleGeometry, Vector3} from "three";
 import * as THREE from "three";
+import {IAnimation} from "../../interfaces/ianimations/IAnimation";
 
 let _nodeGeometry: BufferGeometry;
 
@@ -9,6 +10,7 @@ export class Vertex extends Object3D {
   override type: string;
   protected circle: THREE.Mesh;
   public angle: number = 0;
+  public tweens: IAnimation[] = [];
   constructor(public center: Vector3 = new Vector3(0, 0, 0),
               private radius: number = 1,
               private segments: number = 15) {

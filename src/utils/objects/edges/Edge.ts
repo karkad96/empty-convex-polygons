@@ -5,6 +5,7 @@ import { LineBasicMaterial } from 'three/src/materials/LineBasicMaterial.js';
 import { Line } from 'three/src/objects/Line';
 import {Vector3} from "three";
 import {ColorRepresentation} from "three/src/utils";
+import {IAnimation} from "../../interfaces/ianimations/IAnimation";
 
 const _axis = new Vector3();
 let _lineGeometry: BufferGeometry;
@@ -18,6 +19,7 @@ export class Edge extends Object3D {
   protected readonly line: Line;
 
   public length: number;
+  public tweens: IAnimation[] = [];
 
   constructor(public pFrom: Vector3 = new Vector3(0, 0, 0),
               public pTo: Vector3 = new Vector3(0, 1, 0),
