@@ -3,19 +3,20 @@ import {GraphAlgorithmsFactory} from "./factories/GraphAlgorithmsFactory";
 import {Edge} from "./objects/edges/Edge";
 import {Vertex} from "./objects/vertices/Vertex";
 import {Vector3} from "three";
-import {ObjectDrawerBuilder} from "./builders/ObjectDrawerBuilder";
-import {AnimationKind} from "./factories/AnimationFactory";
+import {EdgeAnimation} from "./animations/EdgeAnimation";
+import {ObjectDrawer} from "./drawers/ObjectDrawer";
+import {LabelAnimation} from "./animations/LabelAnimation";
 
 export class Graph {
   private readonly vertices: Vertex[];
   private readonly edges: Edge[];
   private graphAlgorithmsFactory: GraphAlgorithmsFactory;
-  private objectDrawerBuilder: ObjectDrawerBuilder;
+  private objectDrawer: ObjectDrawer;
   constructor(private SCR: ScrService) {
     this.vertices = [];
     this.edges = [];
     this.graphAlgorithmsFactory = new GraphAlgorithmsFactory(this.vertices, this.edges);
-    this.objectDrawerBuilder = new ObjectDrawerBuilder(this.SCR);
+    this.objectDrawer = new ObjectDrawer(this.SCR);
   }
 
   private clearEdges(): void {
@@ -38,11 +39,10 @@ export class Graph {
     this.clearEdges();
     this.graphAlgorithmsFactory.getStarShapedPolygon().runAlgorithm();
     if(draw) {
-      let builder = this.objectDrawerBuilder.withObjects([this.edges, this.vertices]);
       if(animate) {
-        builder.withAnimations([AnimationKind.edgeAnimation]);
+        this.edges.setAnimations(new EdgeAnimation());
       }
-      builder.build().drawObject();
+      this.objectDrawer.drawObjects(this.vertices, this.edges);
     }
     this.vertices.sortByPosition();
   }
@@ -51,11 +51,10 @@ export class Graph {
     this.clearEdges();
     this.graphAlgorithmsFactory.getVisibilityGraph().runAlgorithm();
     if(draw) {
-      let builder = this.objectDrawerBuilder.withObjects([this.edges, this.vertices]);
       if(animate) {
-        builder.withAnimations([AnimationKind.edgeAnimation]);
+        this.edges.setAnimations(new EdgeAnimation());
       }
-      builder.build().drawObject();
+      this.objectDrawer.drawObjects(this.vertices, this.edges);
     }
     this.vertices.sortByPosition();
   }
@@ -65,11 +64,10 @@ export class Graph {
     let algorithm = this.graphAlgorithmsFactory.getLongestConvexChain();
     algorithm.runAlgorithm();
     if(draw) {
-      let builder = this.objectDrawerBuilder.withObjects([this.edges, this.vertices]);
       if(animate) {
-        builder.withAnimations([AnimationKind.labelAnimation]);
+        this.edges.setAnimations(new LabelAnimation());
       }
-      builder.build().drawObject();
+      this.objectDrawer.drawObjects(this.vertices, this.edges);
     }
     this.vertices.sortByPosition();
   }

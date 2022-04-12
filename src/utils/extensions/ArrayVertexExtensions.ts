@@ -1,4 +1,5 @@
 import {Vertex} from "../objects/vertices/Vertex";
+import {IAnimation} from "../interfaces/ianimations/IAnimation";
 export {};
 
 declare global {
@@ -6,6 +7,7 @@ declare global {
     sortByAngle(): void;
     sortByPosition(): void;
     cross(i: number, j: number, k: number): number;
+    setAnimations(animation: IAnimation): void;
   }
 }
 
@@ -34,3 +36,10 @@ Array.prototype.cross = function (i: number, j: number, k: number): number {
          (this[k].center.x - this[i].center.x) *
          (this[j].center.y - this[i].center.y);
 };
+
+Array.prototype.setAnimations = function (animation: IAnimation): void {
+  this.forEach((vertex) => {
+    vertex.tweens.push(animation);
+  });
+};
+
