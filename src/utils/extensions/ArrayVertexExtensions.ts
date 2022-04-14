@@ -1,45 +1,40 @@
 import {Vertex} from "../objects/vertices/Vertex";
-import {IAnimation} from "../interfaces/ianimations/IAnimation";
 export {};
 
 declare global {
-  interface Array<T = Vertex> {
-    sortByAngle(): void;
-    sortByPosition(): void;
+  interface Array<T> {
+    sortByAngle(): Array<T>;
+    sortByPosition(): Array<T>;
     cross(i: number, j: number, k: number): number;
-    setAnimations(animation: IAnimation): void;
   }
 }
 
-Array.prototype.sortByAngle = function () {
-  this.sortByPosition();
-  this.forEach((vertex) => {
+Array.prototype.sortByAngle = function (): Array<Vertex> {
+  let self = this as Array<Vertex>
+  self.sortByPosition();
+  self.forEach((vertex) => {
     vertex.angle = Math.atan2(vertex.center.y - this[0].center.y,
       vertex.center.x - this[0].center.x);
   });
 
-  let firstElement = this.shift();
-  this.sort((a,b) => a.angle - b.angle);
-  this.unshift(firstElement!);
+  let firstElement = self.shift();
+  self.sort((a,b) => a.angle - b.angle);
+  self.unshift(firstElement!);
 
-  return this;
+  return self;
 };
 
-Array.prototype.sortByPosition = function () {
-  this.sort((a,b)=> a.center.x - b.center.x);
-  return this;
+Array.prototype.sortByPosition = function (): Array<Vertex> {
+  let self = this as Array<Vertex>
+  self.sort((a,b)=> a.center.x - b.center.x);
+  return self;
 };
 
 Array.prototype.cross = function (i: number, j: number, k: number): number {
-  return (this[j].center.x - this[i].center.x) *
-         (this[k].center.y - this[i].center.y) -
-         (this[k].center.x - this[i].center.x) *
-         (this[j].center.y - this[i].center.y);
-};
-
-Array.prototype.setAnimations = function (animation: IAnimation): void {
-  this.forEach((vertex) => {
-    vertex.tweens.push(animation);
-  });
+  let self = this as Array<Vertex>
+  return (self[j].center.x - self[i].center.x) *
+         (self[k].center.y - self[i].center.y) -
+         (self[k].center.x - self[i].center.x) *
+         (self[j].center.y - self[i].center.y);
 };
 

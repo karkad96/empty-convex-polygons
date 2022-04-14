@@ -1,12 +1,28 @@
 import * as TWEEN from "@tweenjs/tween.js";
-import {Object3D} from "three";
 import {IAnimation} from "../interfaces/ianimations/IAnimation";
+import {IObject} from "../interfaces/iobjects/IObject";
+import {CSS2DObject} from "three/examples/jsm/renderers/CSS2DRenderer";
+import * as THREE from "three";
 
 export class LabelAnimation implements IAnimation {
   constructor(private duration: number = 500, private easing: (x: number) => number = TWEEN.Easing.Circular.Out) {
   }
 
-  public prepareAnimation(object: Object3D): TWEEN.Tween<{ x: number, y: number }> {
+  private makeLabel = (object: IObject): void => {
+    const objectDiv = document.createElement('div');
+    objectDiv.className = 'label';
+    objectDiv.id = object.uuid;
+    objectDiv.textContent = object.weight.toString();
+
+    const objectLabel = new CSS2DObject(objectDiv);
+    new THREE.Box3().setFromObject(object).getCenter(objectLabel.position);
+
+    object.worldToLocal(objectLabel.position);
+    object.add(objectLabel);
+  };
+
+  public prepareAnimation(object: IObject): TWEEN.Tween<{ x: number, y: number }> {
+    this.makeLabel(object);
     return new TWEEN.Tween({x: 0, y: 0})
       .to({x: 1, y: 1}, this.duration)
       .onUpdate(() => {

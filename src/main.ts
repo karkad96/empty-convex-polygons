@@ -3,6 +3,8 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
+import './utils/extensions/ArrayIObjectExtensions';
+import './utils/extensions/ArrayVertexExtensions';
 
 if (environment.production) {
   enableProdMode();

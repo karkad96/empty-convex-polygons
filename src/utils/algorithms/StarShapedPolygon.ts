@@ -1,7 +1,6 @@
 import {IAlgorithm} from "../interfaces/ialgorithms/IAlgorithm";
 import {Vertex} from "../objects/vertices/Vertex";
 import {Edge} from "../objects/edges/Edge";
-import "../extensions/ArrayVertexExtensions";
 
 export class StarShapedPolygon implements IAlgorithm {
   private vertices: Vertex[];

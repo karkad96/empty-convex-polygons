@@ -42,7 +42,7 @@ export class Graph {
       if(animate) {
         this.edges.setAnimations(new EdgeAnimation());
       }
-      this.objectDrawer.drawObjects(this.vertices, this.edges);
+      this.objectDrawer.draw(this.vertices, this.edges);
     }
     this.vertices.sortByPosition();
   }
@@ -54,20 +54,19 @@ export class Graph {
       if(animate) {
         this.edges.setAnimations(new EdgeAnimation());
       }
-      this.objectDrawer.drawObjects(this.vertices, this.edges);
+      this.objectDrawer.draw(this.vertices, this.edges);
     }
     this.vertices.sortByPosition();
   }
 
   public longestConvexChainLabels(draw: boolean = false, animate: boolean = false): void {
     this.visibilityGraph();
-    let algorithm = this.graphAlgorithmsFactory.getLongestConvexChain();
-    algorithm.runAlgorithm();
+    this.graphAlgorithmsFactory.getLongestConvexChain().runAlgorithm();
     if(draw) {
       if(animate) {
         this.edges.setAnimations(new LabelAnimation());
       }
-      this.objectDrawer.drawObjects(this.vertices, this.edges);
+      this.objectDrawer.draw(this.vertices, this.edges);
     }
     this.vertices.sortByPosition();
   }

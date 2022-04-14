@@ -21,7 +21,7 @@ export class Edge extends IObject {
 
   constructor(public pFrom: Vector3 = new Vector3(0, 0, 0),
               public pTo: Vector3 = new Vector3(0, 1, 0),
-              public weight: number = 0,
+              weight: number = 0,
               color: number = 0xff0000) {
     super();
 
