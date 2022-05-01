@@ -1,6 +1,6 @@
 import {Object3D} from "three";
-import * as TWEEN from "@tweenjs/tween.js";
+import {Tween} from "../../../types/Types";
 
 export abstract class IAnimation {
-  abstract prepareAnimation(object: Object3D): TWEEN.Tween<{ x: number, y: number }>;
+  abstract prepareAnimation(object: Object3D): Tween;
 }

@@ -19,7 +19,7 @@ export class ArrowedEdge extends Edge {
               headWidth: number = 0.2) {
     super(pFrom, pTo, weight, color);
 
-    this.type = 'LineArrow';
+    this.type = 'ArrowedEdge';
 
     if (_triangleGeometry === undefined) {
       _triangleGeometry = new BufferGeometry();

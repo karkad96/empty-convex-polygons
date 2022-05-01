@@ -5,6 +5,7 @@ import Stats from "three/examples/jsm/libs/stats.module";
 import {CSS2DRenderer} from "three/examples/jsm/renderers/CSS2DRenderer";
 import * as TWEEN from "@tweenjs/tween.js";
 import {Clock} from "three";
+import {Tween} from "../types/Types";
 
 @Injectable({
   providedIn: 'root',
@@ -22,10 +23,9 @@ export class ScrService {
   public labelRenderer = new CSS2DRenderer();
   public orbitControls: OrbitControls;
   public clock: Clock = new Clock();
-  public tween: TWEEN.Tween<{ x: number, y: number }> = new TWEEN.Tween({ x: 0, y: 0 })
-                                                                 .to({x: 0, y: 0}, 0)
-                                                                 .start();
+  public tween: Tween = new TWEEN.Tween({x: 0, y: 0, z: 0}).to({x: 0, y: 0, z: 0}, 0);
   private stats: Stats;
+
   constructor() {
     this.camera.position.set(0, 0, 10);
 
@@ -38,7 +38,7 @@ export class ScrService {
     document.body.appendChild(this.labelRenderer.domElement);
 
     this.orbitControls = new OrbitControls(this.camera, this.labelRenderer.domElement);
-    //this.orbitControls.enableRotate = false;
+    this.orbitControls.enableRotate = false;
 
     let grid = new THREE.GridHelper(100, 100, new THREE.Color( 0x7a7a7a ), new THREE.Color( 0x3a3a3a ));
     grid.geometry.rotateX(Math.PI / 2);

@@ -13,8 +13,8 @@ Array.prototype.sortByAngle = function (): Array<Vertex> {
   let self = this as Array<Vertex>
   self.sortByPosition();
   self.forEach((vertex) => {
-    vertex.angle = Math.atan2(vertex.center.y - this[0].center.y,
-      vertex.center.x - this[0].center.x);
+    vertex.angle = Math.atan2(vertex.center.y - self[0].center.y,
+      vertex.center.x - self[0].center.x);
   });
 
   let firstElement = self.shift();

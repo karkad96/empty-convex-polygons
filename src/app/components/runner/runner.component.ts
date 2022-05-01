@@ -20,9 +20,10 @@ export class RunnerComponent implements OnInit {
 
     graph.addNodes(points);
 
-    graph.starShapedPolygon(true, true);
-    graph.visibilityGraph(true, true);
-    graph.longestConvexChainLabels(true, true);
+    graph.starShapedPolygon(true);
+    graph.visibilityGraph();
+    graph.longestConvexChainLabels(true);
+    graph.draw();
 
     this.SCR.animate();
   }

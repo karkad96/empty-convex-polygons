@@ -2,6 +2,7 @@ import * as TWEEN from "@tweenjs/tween.js";
 import {ArrowedEdge} from "../objects/edges/ArrowedEdge";
 import {Edge} from "../objects/edges/Edge";
 import {IAnimation} from "../interfaces/ianimations/IAnimation";
+import {Tween} from "../../types/Types";
 
 export class EdgeAnimation implements IAnimation {
   constructor(private duration: number = 350, private easing: (x: number) => number = TWEEN.Easing.Circular.Out) {
@@ -15,9 +16,9 @@ export class EdgeAnimation implements IAnimation {
     }
   }
 
-  public prepareAnimation(edge: Edge): TWEEN.Tween<{ x: number, y: number }> {
-    return new TWEEN.Tween({x: 0, y: 0})
-      .to({x: 1, y: 1}, this.duration)
+  public prepareAnimation(edge: Edge): Tween {
+    return new TWEEN.Tween({x: 0, y: 0, z: 0})
+      .to({x: 1, y: 1, z: 1}, this.duration)
       .onUpdate((coords) => {
         this.setLengthOfArrow(edge, coords);
       }).easing(this.easing);

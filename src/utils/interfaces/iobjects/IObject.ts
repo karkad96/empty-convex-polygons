@@ -1,14 +1,17 @@
 import {IAnimation} from "../ianimations/IAnimation";
 import {Object3D} from "three";
+import {Tween} from "../../../types/Types";
 
 export abstract class IObject extends Object3D {
-  tweens: IAnimation[] = [];
+  tweens: Tween[] = [];
   weight: number | string = 0;
   protected constructor() {
     super();
   }
 
   public setAnimation(...animations: IAnimation[]) {
-    this.tweens.push(...animations);
+    animations.forEach((animation) => {
+      this.tweens.push(animation.prepareAnimation(this));
+    });
   }
 }

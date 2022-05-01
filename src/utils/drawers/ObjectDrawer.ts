@@ -7,9 +7,7 @@ export class ObjectDrawer extends ObjectAnimator {
     super(SCR);
   }
 
-  public draw(...objects: IObject[][]): void {
-    objects.forEach((object) => {
-      this.executeAnimation(object);
-    });
+  public draw(objects: IObject[]): void {
+    this.executeAnimation(this.objects = objects);
   }
 }

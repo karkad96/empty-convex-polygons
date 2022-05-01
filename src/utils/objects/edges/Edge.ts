@@ -25,7 +25,7 @@ export class Edge extends IObject {
               color: number = 0xff0000) {
     super();
 
-    this.type = 'LineBase';
+    this.type = 'Edge';
 
     if (_lineGeometry === undefined) {
       _lineGeometry = new BufferGeometry();

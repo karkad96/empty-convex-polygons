@@ -20,6 +20,8 @@
     "@angular/router": "~13.2.0",
     "@tweenjs/tween.js": "^18.6.4",
     "@types/tweenjs": "^1.0.4",
+    "@types/ungap__structured-clone": "^0.3.0",
+    "@ungap/structured-clone": "^0.3.4",
     "linked-list-typescript": "^1.0.15",
     "queue-typescript": "^1.0.1",
     "rxjs": "~7.5.0",
