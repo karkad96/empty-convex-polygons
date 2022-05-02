@@ -2,7 +2,7 @@ import {ConvexChain} from "./ConvexChain";
 import {Vertex} from "../objects/vertices/Vertex";
 import {Edge} from "../objects/edges/Edge";
 
-export class LongestConvexChain  extends ConvexChain {
+export class LargestAreaConvexChain extends ConvexChain {
   constructor(_nodes: Vertex[], _edges: Edge[]) {
     super(_nodes, _edges);
   }
@@ -16,7 +16,8 @@ export class LongestConvexChain  extends ConvexChain {
         m = Math.max(m, this.L[i][this.outgoingEdges[i][l]]);
         l--;
       }
-      this.L[this.incomingEdges[i][j]][i] = edge.weight = m + 1;
+      let weight = this.vertices.cross(0, this.incomingEdges[i][j], i) / 2;
+      this.L[this.incomingEdges[i][j]][i] = edge.weight = m + weight;
     }
   };
 

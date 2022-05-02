@@ -13,7 +13,8 @@ export class Graph {
   private readonly edges: Edge[];
   private graphAlgorithmsFactory: GraphAlgorithmsFactory;
   private objectDrawer: ObjectDrawer;
-  private graphStates: IObject[][] = [];
+  protected graphStates: IObject[][] = [];
+  private objectsToDraw: IObject[][] = [];
   constructor(private SCR: ScrService) {
     this.vertices = [];
     this.edges = [];
@@ -27,19 +28,18 @@ export class Graph {
     }
   }
 
-  public addNodes(x: number | number[][], y: number = 0): void {
-    if(typeof(x) == 'number') {
-      this.vertices.push(new Vertex(new Vector3(x, y, 0), 0.15));
-    } else {
-      x.forEach(row => {
-        this.vertices.push(new Vertex(new Vector3(row[0], row[1], 0), 0.15));
-      });
-    }
+  public addVertices(...vertices: number[][]): void {
+    vertices.forEach((vertex) => {
+      this.vertices.push(new Vertex(new Vector3(vertex[0], vertex[1], 0), 0.15));
+    });
   }
 
-  public starShapedPolygon(animate: boolean = false): void {
+  public starShapedPolygon(draw: boolean = false, animate: boolean = false): void {
     this.clearEdges();
     this.graphAlgorithmsFactory.getStarShapedPolygon().runAlgorithm();
+    if(draw) {
+      this.objectsToDraw.push(new Array<IObject>(...this.vertices, ...this.edges));
+    }
     if(animate) {
       this.edges.setAnimations(new EdgeAnimation());
     }
@@ -47,9 +47,12 @@ export class Graph {
     this.vertices.sortByPosition();
   }
 
-  public visibilityGraph(animate: boolean = false): void  {
+  public visibilityGraph(draw: boolean = false, animate: boolean = false): void  {
     this.clearEdges();
     this.graphAlgorithmsFactory.getVisibilityGraph().runAlgorithm();
+    if(draw) {
+      this.objectsToDraw.push(new Array<IObject>(...this.vertices, ...this.edges));
+    }
     if(animate) {
       this.edges.setAnimations(new EdgeAnimation());
     }
@@ -57,9 +60,25 @@ export class Graph {
     this.vertices.sortByPosition();
   }
 
-  public longestConvexChainLabels(animate: boolean = false): void {
+  public longestConvexChainLabels(draw: boolean = false, animate: boolean = false): void {
     this.visibilityGraph();
     this.graphAlgorithmsFactory.getLongestConvexChain().runAlgorithm();
+    if(draw) {
+      this.objectsToDraw.push(new Array<IObject>(...this.vertices, ...this.edges));
+    }
+    if(animate) {
+      this.edges.setAnimations(new LabelAnimation());
+    }
+    this.graphStates.push(new Array<IObject>(...this.vertices, ...this.edges));
+    this.vertices.sortByPosition();
+  }
+
+  public largestAreaConvexChainLabels(draw: boolean = false, animate: boolean = false): void {
+    this.visibilityGraph();
+    this.graphAlgorithmsFactory.getLargestAreaConvexChain().runAlgorithm();
+    if(draw) {
+      this.objectsToDraw.push(new Array<IObject>(...this.vertices, ...this.edges));
+    }
     if(animate) {
       this.edges.setAnimations(new LabelAnimation());
     }
@@ -68,7 +87,7 @@ export class Graph {
   }
 
   public draw(): void {
-    this.objectDrawer.draw(this.graphStates.flat());
+    this.objectDrawer.draw(this.objectsToDraw.flat());
     this.SCR.tween.start();
   }
 }

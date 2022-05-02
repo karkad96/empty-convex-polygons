@@ -5,6 +5,7 @@ import { Line } from 'three/src/objects/Line';
 import {Vector3} from "three";
 import {ColorRepresentation} from "three/src/utils";
 import {IObject} from "../../interfaces/iobjects/IObject";
+import {Vertex} from "../vertices/Vertex";
 
 const _axis = new Vector3();
 let _lineGeometry: BufferGeometry;
@@ -19,8 +20,8 @@ export class Edge extends IObject {
 
   public length: number;
 
-  constructor(public pFrom: Vector3 = new Vector3(0, 0, 0),
-              public pTo: Vector3 = new Vector3(0, 1, 0),
+  constructor(public pFrom: Vertex = new Vertex(),
+              public pTo: Vertex = new Vertex(),
               weight: number = 0,
               color: number = 0xff0000) {
     super();
@@ -34,8 +35,8 @@ export class Edge extends IObject {
 
     this.pFrom = pFrom; this.pTo = pTo; this.weight = weight;
 
-    this.dir.subVectors(this.pTo, this.pFrom);
-    this.origin.copy(this.pFrom);
+    this.dir.subVectors(this.pTo.center, this.pFrom.center);
+    this.origin.copy(this.pFrom.center);
 
     this.length = this.dir.length();
     this.dir.normalize();

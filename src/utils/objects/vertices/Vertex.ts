@@ -7,10 +7,10 @@ let _nodeGeometry: BufferGeometry;
 
 export class Vertex extends IObject {
   override type: string;
-  protected circle: THREE.Mesh;
+  private readonly circle: THREE.Mesh;
   public angle: number = 0;
   constructor(public center: Vector3 = new Vector3(0, 0, 0),
-              private radius: number = 1,
+              public radius: number = 1,
               private segments: number = 15) {
     super();
 

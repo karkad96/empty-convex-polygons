@@ -1,5 +1,4 @@
 import * as TWEEN from "@tweenjs/tween.js";
-import {ArrowedEdge} from "../objects/edges/ArrowedEdge";
 import {Edge} from "../objects/edges/Edge";
 import {IAnimation} from "../interfaces/ianimations/IAnimation";
 import {Tween} from "../../types/Types";
@@ -9,11 +8,7 @@ export class EdgeAnimation implements IAnimation {
   }
 
   private setLengthOfArrow = (edge: Edge, coords: {x: number, y: number}): void => {
-    if(edge instanceof ArrowedEdge) {
-      edge.setLength(coords.x * edge.length - 0.15, 0.2, 0.2);
-    } else {
-      edge.setLength(coords.x * edge.length);
-    }
+    edge.setLength(coords.x * edge.length);
   }
 
   public prepareAnimation(edge: Edge): Tween {

@@ -19,7 +19,7 @@ export class VisibilityGraph implements IAlgorithm {
       this.proceed(this.queue[i].front, j);
       this.queue[i].dequeue();
     }
-    this.edges.push(new ArrowedEdge(this.vertices[i].center, this.vertices[j].center, 0, 0x0000ff));
+    this.edges.push(new ArrowedEdge(this.vertices[i], this.vertices[j], 0, 0x0000ff));
     this.queue[j].enqueue(i);
   }
 

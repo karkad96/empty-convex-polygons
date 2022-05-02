@@ -1,8 +1,9 @@
 import { Float32BufferAttribute } from 'three/src/core/BufferAttribute.js';
 import { BufferGeometry } from 'three/src/core/BufferGeometry.js';
-import {Mesh, MeshBasicMaterial, Vector3} from "three";
+import {Mesh, MeshBasicMaterial} from "three";
 import {ColorRepresentation} from "three/src/utils";
 import {Edge} from "./Edge";
+import {Vertex} from "../vertices/Vertex";
 
 let _triangleGeometry: BufferGeometry;
 
@@ -11,8 +12,8 @@ export class ArrowedEdge extends Edge {
   private arrowHeadMaterial: MeshBasicMaterial;
   private readonly arrowHead;
 
-  constructor(pFrom: Vector3 = new Vector3(0, 0, 0),
-              pTo: Vector3 = new Vector3(0, 1, 0),
+  constructor(pFrom: Vertex = new Vertex(),
+              pTo: Vertex = new Vertex(),
               weight: number = 0,
               color: number = 0xff0000,
               headLength: number = 0.2,
@@ -33,10 +34,10 @@ export class ArrowedEdge extends Edge {
     this.add(this.arrowHead);
 
     this.setDirection(this.dir);
-    this.setLength(this.length, headLength, headWidth);
+    this.setLength(this.length = this.length - pTo.radius, headLength, headWidth);
   }
 
-  public override setLength = (length: number, headLength = 0, headWidth = 0): void => {
+  public override setLength = (length: number, headLength = 0.2, headWidth = 0.2): void => {
     this.line.scale.set(1, length - headLength, 0);
     this.line.updateMatrix();
 

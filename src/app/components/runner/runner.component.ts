@@ -18,11 +18,11 @@ export class RunnerComponent implements OnInit {
                  [-11, 5], [4, 13], [21, 3],
                  [15, -2], [3, 13], [-7, -7]];
 
-    graph.addNodes(points);
+    graph.addVertices(...points);
 
-    graph.starShapedPolygon(true);
-    graph.visibilityGraph();
-    graph.longestConvexChainLabels(true);
+    graph.starShapedPolygon(true, true);
+    graph.visibilityGraph(true, true);
+    graph.longestConvexChainLabels(true, true);
     graph.draw();
 
     this.SCR.animate();

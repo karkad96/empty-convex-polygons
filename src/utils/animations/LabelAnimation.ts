@@ -9,7 +9,7 @@ export class LabelAnimation implements IAnimation {
   constructor(private duration: number = 500, private easing: (x: number) => number = TWEEN.Easing.Circular.Out) {
   }
 
-  private makeLabel = (object: IObject): CSS2DObject => {
+  private makeLabel = (object: IObject): void => {
     const objectDiv = document.createElement('div');
     objectDiv.className = 'label';
     objectDiv.id = object.uuid;
@@ -19,18 +19,14 @@ export class LabelAnimation implements IAnimation {
     new THREE.Box3().setFromObject(object).getCenter(objectLabel.position);
 
     object.worldToLocal(objectLabel.position);
-
-    return objectLabel;
+    object.add(objectLabel);
   };
 
   public prepareAnimation(object: IObject): Tween {
-    let objectLabel = this.makeLabel(object);
+    this.makeLabel(object);
     return new TWEEN.Tween({x: 0, y: 0, z: 0})
       .to({x: 1, y: 1, z: 1}, this.duration)
-      .onUpdate((coords) => {
-        objectLabel.element.style.opacity = (100 * coords.x).toString() + '%';
-      }).onComplete(() => {
-        object.add(objectLabel);
+      .onUpdate(() => {
       }).easing(this.easing);
   }
 }
