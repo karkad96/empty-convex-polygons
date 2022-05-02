@@ -17,6 +17,7 @@ export class LongestConvexChain  extends ConvexChain {
         l--;
       }
       this.L[this.incomingEdges[i][j]][i] = edge.weight = m + 1;
+      edge.addLabel();
     }
   };
 

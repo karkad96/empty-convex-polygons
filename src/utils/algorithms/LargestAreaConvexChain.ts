@@ -18,6 +18,7 @@ export class LargestAreaConvexChain extends ConvexChain {
       }
       let weight = this.vertices.cross(0, this.incomingEdges[i][j], i) / 2;
       this.L[this.incomingEdges[i][j]][i] = edge.weight = m + weight;
+      edge.addLabel();
     }
   };
 
