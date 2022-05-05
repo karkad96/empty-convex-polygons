@@ -2,13 +2,16 @@ import { Float32BufferAttribute } from 'three/src/core/BufferAttribute.js';
 import { BufferGeometry } from 'three/src/core/BufferGeometry.js';
 import { LineBasicMaterial } from 'three/src/materials/LineBasicMaterial.js';
 import { Line } from 'three/src/objects/Line';
-import {Vector3} from "three";
+import {Intersection, Ray, Raycaster, Vector3} from "three";
 import {ColorRepresentation} from "three/src/utils";
 import {IObject} from "../../interfaces/iobjects/IObject";
 import {Vertex} from "../vertices/Vertex";
+import {Sphere} from "three/src/math/Sphere";
 
 const _axis = new Vector3();
 let _lineGeometry: BufferGeometry;
+const _ray = new Ray();
+const _sphere = new Sphere();
 
 export class Edge extends IObject {
   override type: string;
@@ -75,5 +78,52 @@ export class Edge extends IObject {
     super.copy(source, recursive);
     this.line.copy(source.line);
     return this;
+  }
+
+  public override raycast(raycaster: Raycaster, intersects: Intersection[]) {
+    const threshold = 0.2;
+
+    let center = new Vector3();
+
+    center.addVectors(this.pTo.center, this.pFrom.center);
+    center.divideScalar(2);
+    _sphere.set(center, this.length / 2 + threshold);
+
+    if (!raycaster.ray.intersectsSphere(_sphere)) {
+      return;
+    }
+
+    _ray.copy(raycaster.ray);
+
+    const localThreshold = threshold / ( ( this.scale.x + this.scale.y + this.scale.z ) / 3 );
+    const localThresholdSq = localThreshold * localThreshold;
+
+    const vStart = this.pFrom.center;
+    const vEnd = this.pTo.center;
+    const interSegment = new Vector3();
+    const interRay = new Vector3();
+
+    const distSq = _ray.distanceSqToSegment(vStart, vEnd, interRay, interSegment);
+
+    if (distSq > localThresholdSq) {
+      return;
+    }
+
+    interRay.applyMatrix4(this.matrixWorld);
+
+    const distance = raycaster.ray.origin.distanceTo(interRay);
+
+    if (distance < raycaster.near || distance > raycaster.far) {
+      return;
+    }
+
+    intersects.push({
+      distance: distance,
+      point: interSegment,
+      index: 0,
+      face: null,
+      faceIndex: undefined,
+      object: this
+    });
   }
 }

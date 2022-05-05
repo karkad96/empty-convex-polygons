@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {ScrService} from "../../../services/ScrService";
 import {Graph} from "../../../utils/Graph";
+import {Vertex} from "../../../utils/objects/vertices/Vertex";
+import {Raycaster, Vector2, Vector3} from "three";
+import {Edge} from "../../../utils/objects/edges/Edge";
 
 @Component({
   selector: 'app-runner',
@@ -20,10 +23,31 @@ export class RunnerComponent implements OnInit {
 
     graph.addVertices(...points);
 
-    graph.starShapedPolygon(true, true);
-    graph.visibilityGraph(true, true);
-    graph.longestConvexChainLabels(true, true);
+    graph.starShapedPolygon(true);
+    //graph.visibilityGraph(true, true);
+    //graph.longestConvexChainLabels(true, true);
     graph.draw();
+
+    let line = new Edge(new Vertex(new Vector3(5, 5, 0)), new Vertex(new Vector3(5, 7, 0)));
+    let objects = [line];
+
+    this.SCR.scene.add(...objects);
+
+    let raycaster = new Raycaster();
+    let mouse = new Vector2();
+
+    window.addEventListener('click', (event) => {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(mouse, this.SCR.camera);
+
+      let intersects = raycaster.intersectObjects(objects, false);
+
+      if(intersects.length > 0 ) {
+        console.log(intersects[0]);
+      }
+    });
 
     this.SCR.animate();
   }
